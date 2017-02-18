@@ -3,6 +3,9 @@ package hu.pe.routengo.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import io.requery.Entity;
+
+@Entity
 public abstract class AbstractPlace {
     @SerializedName("id")
     @Expose

@@ -1,7 +1,5 @@
 package hu.pe.routengo.adapter;
 
-import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 
 import hu.pe.routengo.R;
-import hu.pe.routengo.entity.Place;
 import hu.pe.routengo.entity.Route;
 
 /**

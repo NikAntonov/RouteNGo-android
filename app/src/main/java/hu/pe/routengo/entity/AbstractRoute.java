@@ -9,13 +9,13 @@ import io.requery.ManyToMany;
 
 @Entity
 public abstract class AbstractRoute {
-    private String time = "52 min";
-    private String distance = "7.1 km";
-    private String places = "Lorem ipsum dolor sit amet";
-    private String type = "history";
-    private String name;
-    private String date;
+    public String time = "52 min";
+    public String distance = "7.1 km";
+    public String places = "Lorem ipsum dolor sit amet";
+    public String type = "history";
+    public String name;
+    public String date;
     @ManyToMany
-    private ArrayList<Place> placeList = new ArrayList<>();
+    public ArrayList<Place> placeList = new ArrayList<>();
 
 }
