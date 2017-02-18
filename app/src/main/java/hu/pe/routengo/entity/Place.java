@@ -1,9 +1,5 @@
 package hu.pe.routengo.entity;
 
-/**
- * Created by Galya Sheremetova on 18.02.2017.
- */
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -242,7 +238,6 @@ public class Place {
         return cityEn;
     }
 
-    Иван Благовестный, [18.02.17 15:11]
     public void setCityEn(String cityEn) {
         this.cityEn = cityEn;
     }
