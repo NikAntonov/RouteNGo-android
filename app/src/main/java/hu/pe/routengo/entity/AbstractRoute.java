@@ -5,6 +5,7 @@ import com.google.android.gms.location.places.Place;
 import java.util.ArrayList;
 
 import io.requery.Entity;
+import io.requery.ManyToMany;
 
 @Entity
 public abstract class AbstractRoute {
@@ -14,6 +15,7 @@ public abstract class AbstractRoute {
     private String type = "history";
     private String name;
     private String date;
-    private ArrayList<Place> objects = new ArrayList<Place>();
+    @ManyToMany
+    private ArrayList<Place> placeList = new ArrayList<>();
 
 }

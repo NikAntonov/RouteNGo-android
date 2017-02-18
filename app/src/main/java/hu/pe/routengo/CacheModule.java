@@ -1,5 +1,7 @@
 package hu.pe.routengo;
 
+import android.content.Context;
+
 import dagger.Module;
 
 /**
@@ -7,6 +9,18 @@ import dagger.Module;
  */
 @Module
 public class CacheModule {
+    private Context context;
 
+    public CacheModule(Context context) {
+        this.context = context;
+    }
+
+   /* @Provides
+    @Singleton
+    Noodle noodle() {
+        return Noodle.with(context)
+                .addType(Car.class)
+                .build();
+    }*/
 
 }

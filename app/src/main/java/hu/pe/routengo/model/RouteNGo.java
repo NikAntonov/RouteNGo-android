@@ -5,4 +5,5 @@ package hu.pe.routengo.model;
  */
 
 public class RouteNGo {
+    public static final String URL = "http://routengo.pe.hu/admin/api/";
 }

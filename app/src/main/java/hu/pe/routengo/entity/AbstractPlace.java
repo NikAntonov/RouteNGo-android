@@ -3,93 +3,89 @@ package hu.pe.routengo.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import io.requery.Entity;
-
-@Entity
 public abstract class AbstractPlace {
-
     @SerializedName("id")
     @Expose
-    private String id;
+    public String id;
     @SerializedName("name")
     @Expose
-    private String name;
+    public String name;
     @SerializedName("name_en")
     @Expose
-    private String nameEn;
+    public String nameEn;
     @SerializedName("name_pl")
     @Expose
-    private String namePl;
+    public String namePl;
     @SerializedName("name_de")
     @Expose
-    private String nameDe;
+    public String nameDe;
     @SerializedName("name_lt")
     @Expose
-    private String nameLt;
+    public String nameLt;
     @SerializedName("type")
     @Expose
-    private String type;
+    public String type;
     @SerializedName("description")
     @Expose
-    private String description;
+    public String description;
     @SerializedName("description_en")
     @Expose
-    private String descriptionEn;
+    public String descriptionEn;
     @SerializedName("description_pl")
     @Expose
-    private String descriptionPl;
+    public String descriptionPl;
     @SerializedName("description_de")
     @Expose
-    private String descriptionDe;
+    public String descriptionDe;
     @SerializedName("description_lt")
     @Expose
-    private String descriptionLt;
+    public String descriptionLt;
     @SerializedName("country")
     @Expose
-    private String country;
+    public String country;
     @SerializedName("country_en")
     @Expose
-    private String countryEn;
+    public String countryEn;
     @SerializedName("country_pl")
     @Expose
-    private String countryPl;
+    public String countryPl;
     @SerializedName("country_de")
     @Expose
-    private String countryDe;
+    public String countryDe;
     @SerializedName("country_lt")
     @Expose
-    private String countryLt;
+    public String countryLt;
     @SerializedName("city")
     @Expose
-    private String city;
+    public String city;
     @SerializedName("city_en")
     @Expose
-    private String cityEn;
+    public String cityEn;
     @SerializedName("city_pl")
     @Expose
-    private String cityPl;
+    public String cityPl;
     @SerializedName("city_de")
     @Expose
-    private String cityDe;
+    public String cityDe;
     @SerializedName("city_lt")
     @Expose
-    private String cityLt;
+    public String cityLt;
     @SerializedName("region")
     @Expose
-    private String region;
+    public String region;
     @SerializedName("image_url")
     @Expose
-    private String imageUrl;
+    public String imageUrl;
     @SerializedName("website_url")
     @Expose
-    private String websiteUrl;
+    public String websiteUrl;
     @SerializedName("x_latLng")
     @Expose
-    private String xLatLng;
+    public String xLatLng;
     @SerializedName("y_latLng")
     @Expose
-    private String yLatLng;
+    public String yLatLng;
     @SerializedName("time")
     @Expose
-    private String time;
+    public String time;
 }
