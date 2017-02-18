@@ -1,5 +1,19 @@
 package hu.pe.routengo;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+import hu.pe.routengo.model.RouteNGo;
+import hu.pe.routengo.model.RouteNGoService;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+//import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 /**
  * Created by Galya Sheremetova on 18.02.2017.
  */
