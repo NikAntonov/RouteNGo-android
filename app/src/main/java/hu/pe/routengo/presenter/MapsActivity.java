@@ -102,9 +102,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
-
-                // этот код скрывает кнопку сразу же
-                // и отображает после того как нижний экран полностью свернется
                 if (BottomSheetBehavior.STATE_DRAGGING == newState) {
                     fab.animate().scaleX(0).scaleY(0).setDuration(300).start();
                 } else if ((BottomSheetBehavior.STATE_COLLAPSED == newState)||(BottomSheetBehavior.STATE_HIDDEN == newState)) {
