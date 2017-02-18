@@ -1,0 +1,21 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=4C:67:42:68:51:F9:2A:5C:75:82:63:6E:2E:6B:E2:76:96:C7:7D:2C%3Bhu.pe.routengo.presenter
+
+    You can also add your credentials to an existing key, using this line:
+    4C:67:42:68:51:F9:2A:5C:75:82:63:6E:2E:6B:E2:76:96:C7:7D:2C;hu.pe.routengo.presenter
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        AIzaSyDUy3ZlCR2WJD-06m6uL9aNsYz9EEVSjDc
+    </string>
+</resources>
