@@ -6,8 +6,8 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
-    <string name="title_activity_places">PlacesActivity</string>
-    <string name="title_activity_place_info">PlaceInfoActivity</string>
+    <string name="title_activity_places">New route</string>
+    <string name="title_activity_place_info">Place</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
