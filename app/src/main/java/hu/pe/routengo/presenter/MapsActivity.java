@@ -19,8 +19,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.List;
 
 import hu.pe.routengo.R;
 import hu.pe.routengo.entity.Place;
@@ -55,15 +56,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap map) {
         Route route = getIntent().getParcelableExtra("route");
         PolylineOptions opt = new PolylineOptions();
-        for (Place place : route.getPlaceList()) {
-            opt.add(new LatLng(Double.parseDouble(place.getXLatLng()), Double.parseDouble(place.getYLatLng())));
+        List<Place> places = route.getPlaceList();
+        LatLng latIng =
+                new LatLng(Double.parseDouble(places.get(0).getXLatLng()), Double.parseDouble(places.get(0).getYLatLng()));
+
+        for (Place place : places) {
+            latIng = new LatLng(Double.parseDouble(place.getXLatLng()), Double.parseDouble(place.getYLatLng()));
+            opt.add(latIng);
         }
 
         map.addPolyline(opt);
-        map.setLatLngBoundsForCameraTarget(null);
-        map.addMarker(new MarkerOptions().position(new LatLng(-34, 151)));
-        map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(-34, 151)));
-        map.setOnMarkerClickListener(marker -> true);
+        //map.addMarker(new MarkerOptions().position(new LatLng(-34, 151)));
+        map.moveCamera(CameraUpdateFactory.newLatLng(latIng));
         map.setOnMarkerClickListener(this);
     }
 
