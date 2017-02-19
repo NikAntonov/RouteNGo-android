@@ -32,13 +32,12 @@ public class IntroActivity extends AppIntro {
 
     @Inject
     RouteNGoCache routeNGo;
+    ArrayList<Objective> interestsList;
+    RecyclerView rv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        ArrayList<Objective> interestsList;
-        RecyclerView rv;
 
         // Note here that we DO NOT use setContentView();
 
@@ -46,14 +45,10 @@ public class IntroActivity extends AppIntro {
         // AppIntro will automatically generate the dots indicator and buttons.
         // Instead of fragments, you can also use our default slide
         // Just set a title, description, background and image. AppIntro will do the rest.
-        addSlide(AppIntroFragment.newInstance("Welcome!", "For creating routes we need to know what are you like", R.drawable.man, getResources().getColor(R.color.colorPrimary)));
+        addSlide(AppIntroFragment.newInstance("Welcome!", "For creating routes we need to know what are you like", R.drawable.user, getResources().getColor(R.color.colorPrimary)));
         addSlide(SampleSlide.newInstance(R.layout.intro_slide_interests));
+        addSlide(AppIntroFragment.newInstance("Location", "We need to know your location to use main features to Route'N'Go", R.drawable.location_white, getResources().getColor(R.color.colorPrimary)));
         addSlide(SampleSlide.newInstance(R.layout.intro_slide_letgo));
-
-        // OPTIONAL METHODS
-        // Override bar/separator color.
-        setBarColor(getResources().getColor(R.color.colorPrimary));
-        setSeparatorColor(getResources().getColor(R.color.colorPrimary));
 
         // Hide Skip/Done button.
         //
@@ -68,12 +63,13 @@ public class IntroActivity extends AppIntro {
         interestsList = new ArrayList<>();
 
         rv = (RecyclerView) findViewById(R.id.rv_goals);
+        GoalsAdapter adapter = new GoalsAdapter(interestsList);
+        rv.setAdapter(adapter);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         rv.setItemAnimator(itemAnimator);
-        GoalsAdapter adapter = new GoalsAdapter(interestsList);
-        rv.setAdapter(adapter);
+
 
         //routeNGo.getPlaceList().map(PlaceListAdapter::new).subscribe(rv::setAdapter, Throwable::printStackTrace);
     }
