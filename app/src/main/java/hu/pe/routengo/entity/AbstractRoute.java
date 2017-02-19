@@ -1,5 +1,7 @@
 package hu.pe.routengo.entity;
 
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +9,7 @@ import io.requery.Entity;
 import io.requery.ManyToMany;
 
 @Entity
-public abstract class AbstractRoute {
+public abstract class AbstractRoute implements Parcelable {
     String time = "52 min";
     String distance = "7.1 km";
     String places = "Lorem ipsum dolor sit amet";

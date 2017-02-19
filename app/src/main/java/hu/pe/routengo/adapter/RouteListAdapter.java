@@ -46,6 +46,7 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.MyVi
             ad.setMessage("You will vizit historical places in range 7 km"); // сообщение
             ad.setPositiveButton("Yes", (dialog, arg1) -> {
                 Intent intent = new Intent(holder.view.getContext(), MapsActivity.class);
+                intent.putExtra("route", mData.get(position));
                 holder.view.getContext().startActivity(intent);
             });
             ad.setNegativeButton("Cancel", (dialog, arg1) -> {

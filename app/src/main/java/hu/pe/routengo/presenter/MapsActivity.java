@@ -53,7 +53,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap map) {
-        Route route = new Route();
+        Route route = getIntent().getParcelableExtra("route");
         PolylineOptions opt = new PolylineOptions();
         for (Place place : route.getPlaceList()) {
             opt.add(new LatLng(Double.parseDouble(place.getXLatLng()), Double.parseDouble(place.getYLatLng())));
