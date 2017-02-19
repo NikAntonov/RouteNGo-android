@@ -22,13 +22,13 @@ import hu.pe.routengo.entity.Objective;
 
 public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.MyViewHolder> {
     private List<Objective> objectives;
-    private List<String> names = new ArrayList<>();
+    private ArrayList<String> names = new ArrayList<>();
 
     public GoalsAdapter(List<Objective> objectives) {
         this.objectives = objectives;
     }
 
-    public List<String> getGoals() {
+    public ArrayList<String> getNames() {
         return names;
     }
 

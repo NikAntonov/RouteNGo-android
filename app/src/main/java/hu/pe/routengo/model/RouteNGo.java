@@ -27,10 +27,17 @@ public class RouteNGo {
         this.cache = cache;
     }
 
-    public Observable<List<Place>> getPlaceList() {
-        return service.getPlaceList()
+    public Observable<List<Place>> getFullPlaceList() {
+        return service.getFullPlaceList()
                 .flatMap(cache::setPlaceList)
                 .onErrorResumeNext(cache.getPlaceList())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<List<Place>> getPlaceList(String type) {
+        return service.getPlaceList(type)
+                .onErrorResumeNext(cache.getPlaceList(type))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

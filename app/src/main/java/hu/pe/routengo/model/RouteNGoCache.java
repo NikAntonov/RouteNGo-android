@@ -29,8 +29,8 @@ public class RouteNGoCache {
     }
 
     public Observable<List<Place>> setPlaceList(List<Place> placeList) {
-        return entityStore.delete(Place.class).get().single()
-                .flatMap(integer ->  entityStore.insert(placeList))
+        return entityStore.delete(Place.class).get()
+                .single().flatMap(integer -> entityStore.insert(placeList))
                 .flatMapObservable(Observable::fromIterable)
                 .toList().toObservable();
     }
@@ -40,8 +40,13 @@ public class RouteNGoCache {
     }
 
     public Observable<List<Place>> getPlaceList() {
-        return entityStore.select(Place.class).get().observable()
-                .toList().toObservable();
+        return entityStore.select(Place.class).get()
+                .observable().toList().toObservable();
+    }
+
+    public Observable<List<Place>> getPlaceList(String type) {
+        return entityStore.select(Place.class).where(Place.TYPE.eq(type)).get()
+                .observable().toList().toObservable();
     }
 
     public Observable<List<Route>> getRouteList() {

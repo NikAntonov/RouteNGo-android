@@ -2,14 +2,11 @@ package hu.pe.routengo;
 
 import android.content.Context;
 
-import java.util.Arrays;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import hu.pe.routengo.entity.Models;
-import hu.pe.routengo.entity.Objective;
 import io.requery.Persistable;
 import io.requery.android.sqlite.DatabaseSource;
 import io.requery.reactivex.ReactiveEntityStore;
@@ -40,7 +37,7 @@ public class CacheModule {
         Configuration configuration = source.getConfiguration();
         dataStore = ReactiveSupport.toReactiveStore(new EntityDataStore<Persistable>(configuration));
 
-        dataStore.insert(Arrays.asList(new Objective("history"), new Objective("bar"))).subscribe();
+       // dataStore.insert(Arrays.asList(new Objective("history"), new Objective("bar"))).subscribe();
         return dataStore;
     }
 }

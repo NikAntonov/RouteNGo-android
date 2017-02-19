@@ -10,16 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import hu.pe.routengo.App;
 import hu.pe.routengo.R;
 import hu.pe.routengo.adapter.GoalsAdapter;
 import hu.pe.routengo.adapter.SampleSlide;
-import hu.pe.routengo.entity.Objective;
 import hu.pe.routengo.model.RouteNGoCache;
 
 /**
@@ -27,21 +23,15 @@ import hu.pe.routengo.model.RouteNGoCache;
  */
 
 public class IntroActivity extends AppIntro {
-    private List<Objective> interestsList;
     private RecyclerView rv;
     @Inject
-    private RouteNGoCache cache;
+    RouteNGoCache cache;
+    private GoalsAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Note here that we DO NOT use setContentView();
-
-        // Add your slide fragments here.
-        // AppIntro will automatically generate the dots indicator and buttons.
-        // Instead of fragments, you can also use our default slide
-        // Just set a title, description, background and image. AppIntro will do the rest.
         addSlide(AppIntroFragment.newInstance("Welcome!", "For creating routes we need to know what are you like", R.drawable.man, getResources().getColor(R.color.colorPrimary)));
         addSlide(SampleSlide.newInstance(R.layout.intro_slide_interests));
         addSlide(AppIntroFragment.newInstance("Location", "We need to know your location to use main features to Route'N'Go", R.drawable.location_white, getResources().getColor(R.color.colorPrimary)));
@@ -56,19 +46,22 @@ public class IntroActivity extends AppIntro {
         setVibrate(true);
         setVibrateIntensity(30);
 
-        interestsList = new ArrayList<>();
-
         ((App) getApplication()).getComponent().inject(this);
 
         rv = (RecyclerView) findViewById(R.id.rv_goals);
-        GoalsAdapter adapter = new GoalsAdapter(interestsList);
-        rv.setAdapter(adapter);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         rv.setItemAnimator(itemAnimator);
 
-        cache.getObjectives().map(GoalsAdapter::new).subscribe(rv::setAdapter, Throwable::printStackTrace);
+        cache.getObjectives().subscribe(objectives -> {
+            setAdapter(new GoalsAdapter(objectives));
+            rv.setAdapter(adapter);
+        });
+    }
+
+    private void setAdapter(GoalsAdapter adapter) {
+        this.adapter = adapter;
     }
 
     @Override
@@ -80,6 +73,7 @@ public class IntroActivity extends AppIntro {
     @Override
     public void onDonePressed(Fragment currentFragment) {
         super.onDonePressed(currentFragment);
+        getIntent().putStringArrayListExtra("names", adapter.getNames());
         finish();
     }
 

@@ -16,18 +16,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.android.gms.maps.GoogleMap;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import hu.pe.routengo.App;
 import hu.pe.routengo.R;
-import hu.pe.routengo.adapter.RouteListAdapter;
-import hu.pe.routengo.entity.Route;
 import hu.pe.routengo.model.RouteNGo;
+import io.reactivex.Observable;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,7 +36,6 @@ public class MainActivity extends AppCompatActivity
 
     private GoogleMap mMap;
     private RecyclerView rv;
-    private ArrayList<Route> routesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,27 +58,11 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        routesList = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++) {
-            routesList.add(new Route());
-        }
-
-        rv = (RecyclerView) findViewById(R.id.rv_main);
-        if (rv != null) {
-            rv.setHasFixedSize(true);
-            rv.setLayoutManager(new LinearLayoutManager(this));
-            RouteListAdapter adapter = new RouteListAdapter(routesList);
-            rv.setAdapter(adapter);
-            RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-            rv.setItemAnimator(itemAnimator);
-        }
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (fab != null) {
             fab.setOnClickListener(view -> {
                 Intent intent = new Intent(MainActivity.this, PlacesActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 2);
             });
         }
 
@@ -92,6 +74,23 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        ((App) getApplication()).getComponent().inject(this);
+
+        rv = (RecyclerView) findViewById(R.id.rv_main);
+        rv.setHasFixedSize(true);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        rv.setItemAnimator(itemAnimator);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        List<String> names = data.getStringArrayListExtra("names");
+        Observable.fromIterable(names).flatMap(routeNGo::getPlaceList).subscribe();
+               // .map(list -> new Route("Route " + Math.random(), list));
     }
 
     @Override

@@ -3,6 +3,7 @@ package hu.pe.routengo.entity;
 import com.google.android.gms.location.places.Place;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.requery.Entity;
 import io.requery.ManyToMany;
@@ -16,6 +17,13 @@ public abstract class AbstractRoute {
     String name;
     String date;
     @ManyToMany
-    ArrayList<Place> placeList = new ArrayList<>();
+    List<Place> placeList = new ArrayList<>();
 
+    public AbstractRoute() {
+    }
+
+    public AbstractRoute(String name, List<Place> placeList) {
+        this.name = name;
+        this.placeList = placeList;
+    }
 }
