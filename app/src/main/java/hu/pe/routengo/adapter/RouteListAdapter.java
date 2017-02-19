@@ -46,7 +46,6 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.MyVi
                     .load(R.drawable.bar_black)
                     .centerCrop()
                     .into(holder.type);
-
         } else {
             Glide.with(holder.view.getContext())
                     .load(R.drawable.history_black)
@@ -62,7 +61,7 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.MyVi
             ad.setMessage("You will vizit historical places in range 7 km"); // сообщение
             ad.setPositiveButton("Yes", (dialog, arg1) -> {
                 Intent intent = new Intent(holder.view.getContext(), MapsActivity.class);
-                intent.putExtra("route", mData.get(position));
+                intent.putExtra("route", route);
                 holder.view.getContext().startActivity(intent);
             });
             ad.setNegativeButton("Cancel", (dialog, arg1) -> {
