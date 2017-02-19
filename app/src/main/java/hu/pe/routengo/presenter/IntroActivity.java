@@ -3,18 +3,35 @@ package hu.pe.routengo.presenter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import hu.pe.routengo.App;
 import hu.pe.routengo.R;
+import hu.pe.routengo.adapter.GoalsAdapter;
 import hu.pe.routengo.adapter.SampleSlide;
+import hu.pe.routengo.entity.Objective;
+import hu.pe.routengo.model.RouteNGoCache;
 
 /**
  * Created by anton on 19.02.2017.
  */
 
 public class IntroActivity extends AppIntro {
+    private List<Objective> interestsList;
+    private RecyclerView rv;
+    @Inject
+    private RouteNGoCache cache;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,12 +53,12 @@ public class IntroActivity extends AppIntro {
         showSkipButton(false);
         setProgressButtonEnabled(true);
 
-        // Turn vibration on and set intensity.
-        // NOTE: you will probably need to ask VIBRATE permission in Manifest.
         setVibrate(true);
         setVibrateIntensity(30);
 
         interestsList = new ArrayList<>();
+
+        ((App) getApplication()).getComponent().inject(this);
 
         rv = (RecyclerView) findViewById(R.id.rv_goals);
         GoalsAdapter adapter = new GoalsAdapter(interestsList);
@@ -51,8 +68,7 @@ public class IntroActivity extends AppIntro {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         rv.setItemAnimator(itemAnimator);
 
-
-        //routeNGo.getPlaceList().map(PlaceListAdapter::new).subscribe(rv::setAdapter, Throwable::printStackTrace);
+        cache.getObjectives().map(GoalsAdapter::new).subscribe(rv::setAdapter, Throwable::printStackTrace);
     }
 
     @Override
