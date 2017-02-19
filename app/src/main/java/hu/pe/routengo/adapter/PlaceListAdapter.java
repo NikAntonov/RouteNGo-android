@@ -23,9 +23,7 @@ import hu.pe.routengo.presenter.PlaceInfoActivity;
 public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.MyViewHolder> {
 
     private List<Place> placeList;
-    public static String username;
-    private TextView name;
-    private TextView shortDescription;
+
 
     public PlaceListAdapter(List<Place> places) {
         placeList = places;

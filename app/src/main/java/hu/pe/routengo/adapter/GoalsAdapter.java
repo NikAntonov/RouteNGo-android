@@ -9,6 +9,7 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,11 +22,15 @@ import hu.pe.routengo.entity.Objective;
 
 public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.MyViewHolder> {
     private List<Objective> objectives;
+    private List<String> names = new ArrayList<>();
 
     public GoalsAdapter(List<Objective> objectives) {
         this.objectives = objectives;
     }
 
+    public List<String> getGoals() {
+        return names;
+    }
 
     @Override
     public GoalsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,6 +47,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.MyViewHolder
         holder.button.setOnClickListener(v -> {
             objective.setMarcked(1);
             Collections.sort(objectives, (o1, o2) -> o1.getMarcked() - o2.getMarcked());
+            names.add(objective.getName());
         });
     }
 

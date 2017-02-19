@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,7 +27,6 @@ import hu.pe.routengo.R;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    private GoogleMap mMap;
     FloatingActionButton fab;
 
     @Override
@@ -51,11 +51,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.addMarker(new MarkerOptions().position(new LatLng(-34, 151)));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(-34, 151)));
-        mMap.setOnMarkerClickListener(this);
+    public void onMapReady(GoogleMap map) {
+        GoogleApiClient client = new GoogleApiClient.Builder(this)
+                .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage(this, 0, connectionResult -> {
+                }).build();
+
+        /*PendingResult<AutocompletePredictionBuffer> results =
+                Places.PlaceDetectionApi.getCurrentPlace()*/
+
+
+        map.setLatLngBoundsForCameraTarget(null);
+        map.addMarker(new MarkerOptions().position(new LatLng(-34, 151)));
+        map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(-34, 151)));
+        map.setOnMarkerClickListener(marker -> true);
+        map.setOnMarkerClickListener(this);
     }
 
     @Override
@@ -85,7 +95,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (BottomSheetBehavior.STATE_DRAGGING == newState) {
                     fab.animate().scaleX(0).scaleY(0).setDuration(300).start();
-                } else if ((BottomSheetBehavior.STATE_COLLAPSED == newState)||(BottomSheetBehavior.STATE_HIDDEN == newState)) {
+                } else if ((BottomSheetBehavior.STATE_COLLAPSED == newState) || (BottomSheetBehavior.STATE_HIDDEN == newState)) {
                     fab.animate().scaleX(1).scaleY(1).setDuration(300).start();
                 }
             }
