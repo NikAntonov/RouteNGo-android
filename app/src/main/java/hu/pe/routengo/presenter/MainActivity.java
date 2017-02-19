@@ -28,7 +28,6 @@ import hu.pe.routengo.R;
 import hu.pe.routengo.adapter.RouteListAdapter;
 import hu.pe.routengo.entity.Route;
 import hu.pe.routengo.model.RouteNGo;
-import io.reactivex.Observable;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -91,7 +90,12 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
 
         List<String> names = data.getStringArrayListExtra("names");
-        Observable.fromIterable(names).flatMap(routeNGo::getPlaceList)
+       /* Observable.fromIterable(names).flatMap(routeNGo::getPlaceList)
+                .map(list -> new Route("Route " + Math.random(), list.get(0).getType(), list))
+                .toList()
+                .map(RouteListAdapter::new)
+                .subscribe(rv::setAdapter);*/
+       routeNGo.getPlaceList(names.get(0))
                 .map(list -> new Route("Route " + Math.random(), list.get(0).getType(), list))
                 .toList()
                 .map(RouteListAdapter::new)
