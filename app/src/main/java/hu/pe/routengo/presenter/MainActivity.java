@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
                 .toList()
                 .map(RouteListAdapter::new)
                 .subscribe(rv::setAdapter);*/
-       routeNGo.getPlaceList(names.get(0))
+       routeNGo.getFullPlaceList()
                 .map(list -> new Route("Route " + Math.random(), list.get(0).getType(), list))
                 .toList()
                 .map(RouteListAdapter::new)
