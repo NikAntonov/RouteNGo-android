@@ -2,9 +2,11 @@ package hu.pe.routengo.model;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import hu.pe.routengo.entity.Place;
 import hu.pe.routengo.entity.Route;
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.requery.Persistable;
@@ -14,22 +16,20 @@ import io.requery.reactivex.ReactiveEntityStore;
 /**
  * Created by Galya Sheremetova on 18.02.2017.
  */
-//@Singleton
+@Singleton
 public class RouteNGoCache {
     private ReactiveEntityStore<Persistable> entityStore;
 
-    //@Inject
+    @Inject
     public RouteNGoCache(ReactiveEntityStore<Persistable> entityStore) {
         this.entityStore = entityStore;
     }
 
-    public Completable deletePlaceList() {
-        return entityStore.delete(Place.class).get().single().toCompletable();
-    }
-
-
-    public Single<Iterable<Place>> addPlaceList(List<Place> placeList) {
-        return entityStore.insert(placeList);
+    public Observable<List<Place>> setPlaceList(List<Place> placeList) {
+        return entityStore.delete(Place.class).get().single()
+                .flatMap(integer ->  entityStore.insert(placeList))
+                .flatMapObservable(Observable::fromIterable)
+                .toList().toObservable();
     }
 
     public Single<Route> addRoute(Route route) {
