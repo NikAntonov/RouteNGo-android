@@ -79,8 +79,6 @@ public class MainActivity extends AppCompatActivity
 
         ((App) getApplication()).getComponent().inject(this);
 
-
-
         rv = (RecyclerView) findViewById(R.id.rv_main);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -95,7 +93,8 @@ public class MainActivity extends AppCompatActivity
         List<String> names = data.getStringArrayListExtra("names");
         Observable.fromIterable(names).flatMap(routeNGo::getPlaceList)
                 .map(list -> new Route("Route " + Math.random(), list))
-                .toList().map(RouteListAdapter::new)
+                .toList()
+                .map(RouteListAdapter::new)
                 .subscribe(rv::setAdapter);
     }
 

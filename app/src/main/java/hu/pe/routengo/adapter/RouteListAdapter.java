@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import hu.pe.routengo.R;
@@ -18,7 +20,7 @@ import hu.pe.routengo.presenter.MapsActivity;
 /**
  * Created by anton on 18.02.2017.
  */
-public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.MyViewHolder>{
+public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.MyViewHolder> {
 
     private List<Route> mData;
     public static String username;
@@ -38,7 +40,20 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.MyVi
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        holder.position = position;
+        Route route = mData.get(position);
+        if (route.getName().equals("bar")) {
+            Glide.with(holder.view.getContext())
+                    .load(R.drawable.bar_black)
+                    .centerCrop()
+                    .into(holder.type);
+
+        } else {
+            Glide.with(holder.view.getContext())
+                    .load(R.drawable.history_black)
+                    .centerCrop()
+                    .into(holder.type);
+        }
+
         holder.view.setOnClickListener(v -> {
             AlertDialog.Builder ad = new AlertDialog.Builder(holder.view.getContext());
 
@@ -72,7 +87,6 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.MyVi
         public TextView distance;
         public TextView places;
         public ImageView type;
-        public int position;
 
         public MyViewHolder(View itemView) {
             super(itemView);
