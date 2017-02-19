@@ -13,9 +13,9 @@ public class App extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-component = DaggerRouteNGoComponent.builder()
-        .serviceModule(new ServiceModule())
-        .cacheModule(new CacheModule(this))
-        .build();
+        component = DaggerRouteNGoComponent.builder()
+                .serviceModule(new ServiceModule())
+                .cacheModule(new CacheModule(this))
+                .build();
     }
 }

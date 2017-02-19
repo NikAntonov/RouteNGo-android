@@ -41,6 +41,9 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.MyVi
     @Override
     public void onBindViewHolder(final PlaceListAdapter.MyViewHolder holder, int position) {
         Place place = placeList.get(position);
+        holder.name.setText(place.getName());
+        holder.shortDescription.setText(place.getDescription());
+
         Glide.with(holder.view.getContext())
                 .load(place.getImageUrl())
                 .centerCrop()
