@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity
 
         ((App) getApplication()).getComponent().inject(this);
 
+
+
         rv = (RecyclerView) findViewById(R.id.rv_main);
         rv.setHasFixedSize(true);
         rv.setLayoutManager(new LinearLayoutManager(this));
