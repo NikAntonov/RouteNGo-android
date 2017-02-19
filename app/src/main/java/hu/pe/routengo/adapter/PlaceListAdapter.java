@@ -11,11 +11,7 @@ import java.util.ArrayList;
 
 import hu.pe.routengo.R;
 import hu.pe.routengo.entity.Place;
-import hu.pe.routengo.entity.Route;
 
-/**
- * Created by anton on 18.02.2017.
- */
 
 public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.MyViewHolder>{
 
@@ -64,5 +60,4 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.MyVi
             img = (ImageView) itemView.findViewById(R.id.img_card_main);
         }
     }
-
 }

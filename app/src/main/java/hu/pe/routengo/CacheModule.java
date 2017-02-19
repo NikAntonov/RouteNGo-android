@@ -1,11 +1,26 @@
 package hu.pe.routengo;
 
+import android.content.Context;
+
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+import hu.pe.routengo.entity.Models;
+import io.requery.Persistable;
+import io.requery.android.sqlite.DatabaseSource;
+import io.requery.reactivex.ReactiveEntityStore;
+import io.requery.reactivex.ReactiveSupport;
+import io.requery.sql.Configuration;
+import io.requery.sql.EntityDataStore;
+import io.requery.sql.TableCreationMode;
+
 /**
  * Created by Galya Sheremetova on 18.02.2017.
  */
-//@Module
+@Module
 public class CacheModule {
-   /* private Context context;
+    private Context context;
 
     public CacheModule(Context context) {
         this.context = context;
@@ -24,5 +39,5 @@ public class CacheModule {
         dataStore = ReactiveSupport.toReactiveStore(
                 new EntityDataStore<Persistable>(configuration));
         return dataStore;
-    }*/
+    }
 }

@@ -8,17 +8,19 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import hu.pe.routengo.R;
 import hu.pe.routengo.adapter.PlaceListAdapter;
-import hu.pe.routengo.adapter.RouteListAdapter;
 import hu.pe.routengo.entity.Place;
-import hu.pe.routengo.entity.Route;
+import hu.pe.routengo.model.RouteNGo;
 
 public class PlacesActivity extends AppCompatActivity {
+    @Inject
+    RouteNGo routeNGo;
 
     private RecyclerView rv;
     private ArrayList<Place> placesList;
