@@ -1,7 +1,9 @@
 package hu.pe.routengo.presenter;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -39,6 +41,20 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Thread t = new Thread(() -> {
+            SharedPreferences getPrefs = PreferenceManager
+                    .getDefaultSharedPreferences(getBaseContext());
+            boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
+            if (isFirstStart) {
+                Intent i = new Intent(MainActivity.this, IntroActivity.class);
+                startActivity(i);
+                SharedPreferences.Editor e = getPrefs.edit();
+                e.putBoolean("firstStart", false);
+                e.apply();
+            }
+        });
+
+        t.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

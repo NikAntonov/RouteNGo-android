@@ -1,5 +1,6 @@
 package hu.pe.routengo.adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,11 @@ import java.util.ArrayList;
 
 import hu.pe.routengo.R;
 import hu.pe.routengo.entity.Place;
+import hu.pe.routengo.presenter.PlaceInfoActivity;
 
+/**
+ * Created by anton on 18.02.2017.
+ */
 
 public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.MyViewHolder>{
 
@@ -35,7 +40,8 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.MyVi
     public void onBindViewHolder(final PlaceListAdapter.MyViewHolder holder, int position) {
         holder.position = position;
         holder.view.setOnClickListener(v -> {
-
+            Intent intent = new Intent(holder.view.getContext(), PlaceInfoActivity.class);
+            holder.view.getContext().startActivity(intent);
         });
     }
 
