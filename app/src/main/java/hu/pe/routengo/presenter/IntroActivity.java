@@ -32,8 +32,8 @@ public class IntroActivity extends AppIntro {
 
         // OPTIONAL METHODS
         // Override bar/separator color.
-        setBarColor(Color.parseColor("#3F51B5"));
-        setSeparatorColor(Color.parseColor("#2196F3"));
+        setBarColor(getResources().getColor(R.color.colorPrimary));
+        setSeparatorColor(getResources().getColor(R.color.colorPrimary));
 
         // Hide Skip/Done button.
         //
