@@ -5,10 +5,13 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import hu.pe.routengo.entity.Objective;
 import hu.pe.routengo.entity.Place;
 import hu.pe.routengo.entity.Route;
 import io.reactivex.Observable;
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import io.requery.Persistable;
 import io.requery.reactivex.ReactiveEntityStore;
 
@@ -45,5 +48,11 @@ public class RouteNGoCache {
         return entityStore.select(Route.class)
                 .orderBy(Route.TYPE).get().observable()
                 .toList().toObservable();
+    }
+
+    public Single<List<Objective>> getObjectives() {
+        return entityStore.select(Objective.class).get().observable().toList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

@@ -1,40 +1,20 @@
 package hu.pe.routengo.presenter;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
-import java.util.ArrayList;
-
-import javax.inject.Inject;
-
 import hu.pe.routengo.R;
-import hu.pe.routengo.adapter.GoalsAdapter;
-import hu.pe.routengo.adapter.ObjectiveListAdapter;
-import hu.pe.routengo.adapter.RouteListAdapter;
 import hu.pe.routengo.adapter.SampleSlide;
-import hu.pe.routengo.entity.Objective;
-import hu.pe.routengo.entity.Route;
-import hu.pe.routengo.model.RouteNGoCache;
 
 /**
  * Created by anton on 19.02.2017.
  */
 
 public class IntroActivity extends AppIntro {
-
-    @Inject
-    RouteNGoCache routeNGo;
-    ArrayList<Objective> interestsList;
-    RecyclerView rv;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,13 +25,14 @@ public class IntroActivity extends AppIntro {
         // AppIntro will automatically generate the dots indicator and buttons.
         // Instead of fragments, you can also use our default slide
         // Just set a title, description, background and image. AppIntro will do the rest.
-        addSlide(AppIntroFragment.newInstance("Welcome!", "For creating routes we need to know what are you like", R.drawable.user, getResources().getColor(R.color.colorPrimary)));
+        addSlide(AppIntroFragment.newInstance("Welcome!", "For creating routes we need to know what are you like", R.drawable.man, getResources().getColor(R.color.colorPrimary)));
         addSlide(SampleSlide.newInstance(R.layout.intro_slide_interests));
         addSlide(AppIntroFragment.newInstance("Location", "We need to know your location to use main features to Route'N'Go", R.drawable.location_white, getResources().getColor(R.color.colorPrimary)));
         addSlide(SampleSlide.newInstance(R.layout.intro_slide_letgo));
 
-        // Hide Skip/Done button.
-        //
+        setBarColor(getResources().getColor(R.color.colorPrimary));
+        setSeparatorColor(getResources().getColor(R.color.colorPrimary));
+
         showSkipButton(false);
         setProgressButtonEnabled(true);
 
