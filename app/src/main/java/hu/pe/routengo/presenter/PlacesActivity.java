@@ -41,6 +41,6 @@ public class PlacesActivity extends AppCompatActivity {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         rv.setItemAnimator(itemAnimator);
 
-        routeNGo.getPlaceList().map(PlaceListAdapter::new).subscribe(rv::setAdapter);
+        routeNGo.getPlaceList().map(PlaceListAdapter::new).subscribe(rv::setAdapter, Throwable::printStackTrace);
     }
 }
