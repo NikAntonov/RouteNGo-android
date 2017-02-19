@@ -13,8 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,8 +20,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import hu.pe.routengo.R;
+import hu.pe.routengo.entity.Place;
+import hu.pe.routengo.entity.Route;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -52,15 +53,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap map) {
-        GoogleApiClient client = new GoogleApiClient.Builder(this)
-                .addApi(Places.PLACE_DETECTION_API)
-                .enableAutoManage(this, 0, connectionResult -> {
-                }).build();
+        Route route = new Route();
+        PolylineOptions opt = new PolylineOptions();
+        for (Place place : route.getPlaceList()) {
+            opt.add(new LatLng(Double.parseDouble(place.getXLatLng()), Double.parseDouble(place.getYLatLng())));
+        }
 
-        /*PendingResult<AutocompletePredictionBuffer> results =
-                Places.PlaceDetectionApi.getCurrentPlace()*/
-
-
+        map.addPolyline(opt);
         map.setLatLngBoundsForCameraTarget(null);
         map.addMarker(new MarkerOptions().position(new LatLng(-34, 151)));
         map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(-34, 151)));

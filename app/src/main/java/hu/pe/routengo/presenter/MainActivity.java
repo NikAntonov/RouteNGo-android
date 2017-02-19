@@ -25,6 +25,8 @@ import javax.inject.Inject;
 
 import hu.pe.routengo.App;
 import hu.pe.routengo.R;
+import hu.pe.routengo.adapter.RouteListAdapter;
+import hu.pe.routengo.entity.Route;
 import hu.pe.routengo.model.RouteNGo;
 import io.reactivex.Observable;
 
@@ -89,8 +91,9 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
 
         List<String> names = data.getStringArrayListExtra("names");
-        Observable.fromIterable(names).flatMap(routeNGo::getPlaceList).subscribe();
-               // .map(list -> new Route("Route " + Math.random(), list));
+        Observable.fromIterable(names).flatMap(routeNGo::getPlaceList)
+                .map(list -> new Route("Route " + Math.random(), list))
+                .toList().map(RouteListAdapter::new).subscribe(rv::setAdapter);
     }
 
     @Override

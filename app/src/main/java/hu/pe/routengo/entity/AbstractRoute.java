@@ -1,7 +1,5 @@
 package hu.pe.routengo.entity;
 
-import com.google.android.gms.location.places.Place;
-
 import java.util.ArrayList;
 import java.util.List;
 
