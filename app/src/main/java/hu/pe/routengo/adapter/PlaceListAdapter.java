@@ -25,6 +25,9 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.MyVi
     private List<Place> placeList;
 
 
+
+
+
     public PlaceListAdapter(List<Place> places) {
         placeList = places;
     }
