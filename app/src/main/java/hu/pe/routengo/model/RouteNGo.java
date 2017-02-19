@@ -29,6 +29,7 @@ public class RouteNGo {
 
     public Observable<List<Place>> getPlaceList() {
         return service.getPlaceList()
+                .doOnError(Throwable::printStackTrace)
                 .flatMap(cache::setPlaceList)
                 .onErrorResumeNext(cache.getPlaceList())
                 .subscribeOn(Schedulers.io())
