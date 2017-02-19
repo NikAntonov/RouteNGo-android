@@ -45,8 +45,8 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.MyViewHolder
                 .centerCrop()
                 .into(holder.imageView);
         holder.button.setOnClickListener(v -> {
-            objective.setMarcked(1);
-            Collections.sort(objectives, (o1, o2) -> o1.getMarcked() - o2.getMarcked());
+            objective.setMarked(1);
+            Collections.sort(objectives, (o1, o2) -> o1.getMarked() - o2.getMarked());
             names.add(objective.getName());
         });
     }

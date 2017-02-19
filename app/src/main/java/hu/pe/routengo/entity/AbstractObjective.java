@@ -11,5 +11,12 @@ import io.requery.Entity;
 public abstract class AbstractObjective {
     String name;
     int imageId = R.drawable.caption;
-    int marcked;
+    int marked;
+
+    public AbstractObjective() {
+    }
+
+    public AbstractObjective(String name) {
+        this.name = name;
+    }
 }
