@@ -4,21 +4,41 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
+import java.util.ArrayList;
+
+import javax.inject.Inject;
+
 import hu.pe.routengo.R;
+import hu.pe.routengo.adapter.GoalsAdapter;
+import hu.pe.routengo.adapter.ObjectiveListAdapter;
+import hu.pe.routengo.adapter.RouteListAdapter;
 import hu.pe.routengo.adapter.SampleSlide;
+import hu.pe.routengo.entity.Objective;
+import hu.pe.routengo.entity.Route;
+import hu.pe.routengo.model.RouteNGoCache;
 
 /**
  * Created by anton on 19.02.2017.
  */
 
 public class IntroActivity extends AppIntro {
+
+    @Inject
+    RouteNGoCache routeNGo;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ArrayList<Objective> interestsList;
+        RecyclerView rv;
 
         // Note here that we DO NOT use setContentView();
 
@@ -44,6 +64,18 @@ public class IntroActivity extends AppIntro {
         // NOTE: you will probably need to ask VIBRATE permission in Manifest.
         setVibrate(true);
         setVibrateIntensity(30);
+
+        interestsList = new ArrayList<>();
+
+        rv = (RecyclerView) findViewById(R.id.rv_goals);
+        rv.setHasFixedSize(true);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        rv.setItemAnimator(itemAnimator);
+        GoalsAdapter adapter = new GoalsAdapter(interestsList);
+        rv.setAdapter(adapter);
+
+        //routeNGo.getPlaceList().map(PlaceListAdapter::new).subscribe(rv::setAdapter, Throwable::printStackTrace);
     }
 
     @Override
