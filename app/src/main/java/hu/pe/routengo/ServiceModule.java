@@ -42,7 +42,7 @@ public class ServiceModule {
 
     @Provides
     @Singleton
-    RouteNGoService dvinnerService(Retrofit retrofit) {
+    RouteNGoService routeNGoService(Retrofit retrofit) {
         return retrofit.create(RouteNGoService.class);
     }
 }

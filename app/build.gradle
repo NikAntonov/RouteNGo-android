@@ -25,9 +25,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    configurations.all {
+   /* configurations.all {
         resolutionStrategy.force 'com.android.support:support-annotations:23.1.0'
-    }
+    }*/
 
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
