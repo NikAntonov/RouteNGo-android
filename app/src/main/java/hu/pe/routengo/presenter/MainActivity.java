@@ -96,11 +96,12 @@ public class MainActivity extends AppCompatActivity
                 .toList()
                 .map(RouteListAdapter::new)
                 .subscribe(rv::setAdapter);*/
-       routeNGo.getFullPlaceList()
-                .subscribe(placeList -> {
+        routeNGo.getFullPlaceList()
+                .subscribe(placeList ->
 
-                    rv.setAdapter(new RouteListAdapter(Collections.singletonList(new Route("Route", "bar", placeList))));
-                });
+                                rv.setAdapter(new RouteListAdapter(Collections.singletonList(new Route("Route", "bar", placeList))))
+                        , Throwable::printStackTrace
+                );
     }
 
     @Override
