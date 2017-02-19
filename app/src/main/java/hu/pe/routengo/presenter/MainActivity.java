@@ -19,6 +19,7 @@ import android.view.MenuItem;
 
 import com.google.android.gms.maps.GoogleMap;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -96,10 +97,10 @@ public class MainActivity extends AppCompatActivity
                 .map(RouteListAdapter::new)
                 .subscribe(rv::setAdapter);*/
        routeNGo.getFullPlaceList()
-                .map(list -> new Route("Route " + Math.random(), "bar", list))
-                .toList()
-                .map(RouteListAdapter::new)
-                .subscribe(rv::setAdapter);
+                .subscribe(placeList -> {
+
+                    rv.setAdapter(new RouteListAdapter(Collections.singletonList(new Route("Route", "bar", placeList))));
+                });
     }
 
     @Override
