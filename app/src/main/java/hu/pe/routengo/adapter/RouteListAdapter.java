@@ -41,7 +41,7 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.MyVi
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Route route = mData.get(position);
-        if (route.getName().equals("bar")) {
+        if (route.getType().equals("bar")) {
             Glide.with(holder.view.getContext())
                     .load(R.drawable.bar_black)
                     .centerCrop()
@@ -53,6 +53,7 @@ public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.MyVi
                     .centerCrop()
                     .into(holder.type);
         }
+        holder.time.setText(route.getName());
 
         holder.view.setOnClickListener(v -> {
             AlertDialog.Builder ad = new AlertDialog.Builder(holder.view.getContext());

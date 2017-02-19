@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity
 
         List<String> names = data.getStringArrayListExtra("names");
         Observable.fromIterable(names).flatMap(routeNGo::getPlaceList)
-                .map(list -> new Route("Route " + Math.random(), list))
+                .map(list -> new Route("Route " + Math.random(), list.get(0).getType(), list))
                 .toList()
                 .map(RouteListAdapter::new)
                 .subscribe(rv::setAdapter);

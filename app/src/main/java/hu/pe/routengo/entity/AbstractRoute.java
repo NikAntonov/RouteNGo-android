@@ -22,8 +22,9 @@ public abstract class AbstractRoute implements Parcelable {
     public AbstractRoute() {
     }
 
-    public AbstractRoute(String name, List<Place> placeList) {
+    public AbstractRoute(String name, String type, List<Place> placeList) {
         this.name = name;
+        this.type = type;
         this.placeList = placeList;
     }
 }
