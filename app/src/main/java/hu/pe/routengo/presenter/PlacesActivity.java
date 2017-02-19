@@ -9,21 +9,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
-import java.util.ArrayList;
-
 import javax.inject.Inject;
 
+import hu.pe.routengo.App;
 import hu.pe.routengo.R;
 import hu.pe.routengo.adapter.PlaceListAdapter;
-import hu.pe.routengo.entity.Place;
 import hu.pe.routengo.model.RouteNGo;
 
 public class PlacesActivity extends AppCompatActivity {
     @Inject
     RouteNGo routeNGo;
-
     private RecyclerView rv;
-    private ArrayList<Place> placesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +33,14 @@ public class PlacesActivity extends AppCompatActivity {
                 .setAction("Action", null).show());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        placesList = new ArrayList<>();
-
-        for (int i = 0; i < 5; i++) {
-            placesList.add(new Place());
-        }
+        ((App) getApplication()).getComponent().inject(this);
 
         rv = (RecyclerView) findViewById(R.id.rv_places);
-        if (rv != null) {
-            rv.setHasFixedSize(true);
-            rv.setLayoutManager(new LinearLayoutManager(this));
-            PlaceListAdapter adapter = new PlaceListAdapter(placesList);
-            rv.setAdapter(adapter);
-            RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-            rv.setItemAnimator(itemAnimator);
-        }
-    }
+        rv.setHasFixedSize(true);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        rv.setItemAnimator(itemAnimator);
 
+        routeNGo.getPlaceList().map(PlaceListAdapter::new).subscribe(rv::setAdapter);
+    }
 }
