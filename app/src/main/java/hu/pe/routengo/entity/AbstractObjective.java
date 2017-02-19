@@ -1,5 +1,6 @@
 package hu.pe.routengo.entity;
 
+import hu.pe.routengo.R;
 import io.requery.Entity;
 
 /**
@@ -9,5 +10,6 @@ import io.requery.Entity;
 @Entity
 public abstract class AbstractObjective {
     String name;
-    int imageId;
+    int imageId = R.drawable.caption;
+    int marcked;
 }

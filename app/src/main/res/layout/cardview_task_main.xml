@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/img_card_task"
+        android:layout_width="144dp"
+        android:layout_height="match_parent"
+        android:src="@drawable/caption"
+        android:scaleType="centerCrop" />
 
     <ToggleButton
-        android:layout_margin="10dp"
-        android:text="Task"
-        android:background="@color/colorAccent"
-        android:textColor="@color/cardview_light_background"
+        android:id="@+id/toggleButton"
         style="@style/CardView.Light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/toggleButton" />
+        android:layout_margin="10dp"
+        android:background="@color/colorAccent"
+        android:text="Task"
+        android:textColor="@color/cardview_light_background" />
 </LinearLayout>
