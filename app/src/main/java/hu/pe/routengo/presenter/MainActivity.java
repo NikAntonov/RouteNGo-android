@@ -19,7 +19,6 @@ import android.view.MenuItem;
 
 import com.google.android.gms.maps.GoogleMap;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,6 +28,7 @@ import hu.pe.routengo.R;
 import hu.pe.routengo.adapter.RouteListAdapter;
 import hu.pe.routengo.entity.Route;
 import hu.pe.routengo.model.RouteNGo;
+import io.reactivex.Observable;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -88,20 +88,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_OK) {
+            List<String> names = data.getStringArrayListExtra("names");
+            Observable.fromIterable(names).flatMap(routeNGo::getPlaceList)
+                    .map(list -> new Route("Route " + Math.random(), list.get(0).getType(), list))
+                    .toList()
+                    .map(RouteListAdapter::new)
+                    .subscribe(rv::setAdapter);
 
-        List<String> names = data.getStringArrayListExtra("names");
-       /* Observable.fromIterable(names).flatMap(routeNGo::getPlaceList)
-                .map(list -> new Route("Route " + Math.random(), list.get(0).getType(), list))
-                .toList()
-                .map(RouteListAdapter::new)
-                .subscribe(rv::setAdapter);*/
-        routeNGo.getFullPlaceList()
-                .subscribe(placeList ->
-
-                                rv.setAdapter(new RouteListAdapter(Collections.singletonList(new Route("Route", "bar", placeList))))
-                        , Throwable::printStackTrace
-                );
+        }
     }
 
     @Override
@@ -116,32 +111,23 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_map) {
             Intent intent = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(intent);
@@ -151,5 +137,4 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

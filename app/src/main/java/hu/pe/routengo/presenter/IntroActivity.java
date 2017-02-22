@@ -1,8 +1,10 @@
 package hu.pe.routengo.presenter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,12 +20,7 @@ import hu.pe.routengo.adapter.GoalsAdapter;
 import hu.pe.routengo.adapter.SampleSlide;
 import hu.pe.routengo.model.RouteNGoCache;
 
-/**
- * Created by anton on 19.02.2017.
- */
-
 public class IntroActivity extends AppIntro {
-    private RecyclerView rv;
     @Inject
     RouteNGoCache cache;
     private GoalsAdapter adapter;
@@ -31,33 +28,31 @@ public class IntroActivity extends AppIntro {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        addSlide(AppIntroFragment.newInstance("Welcome!", "For creating routes we need to know what are you like", R.drawable.man, getResources().getColor(R.color.colorPrimary)));
+        addSlide(AppIntroFragment.newInstance("Welcome!", "For creating routes we need to know what are you like",
+                R.drawable.man, ContextCompat.getColor(this, R.color.colorPrimary)));
         addSlide(SampleSlide.newInstance(R.layout.intro_slide_interests));
-        addSlide(AppIntroFragment.newInstance("Location", "We need to know your location to use main features to Route'N'Go", R.drawable.location_white, getResources().getColor(R.color.colorPrimary)));
+        addSlide(AppIntroFragment.newInstance("Location", "We need to know your location to use main features to Route'N'Go",
+                R.drawable.location_white, ContextCompat.getColor(this, R.color.colorPrimary)));
         addSlide(SampleSlide.newInstance(R.layout.intro_slide_letgo));
 
-        setBarColor(getResources().getColor(R.color.colorPrimary));
-        setSeparatorColor(getResources().getColor(R.color.colorPrimary));
-
+        setBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        setSeparatorColor(ContextCompat.getColor(this, R.color.colorPrimary));
         showSkipButton(false);
         setProgressButtonEnabled(true);
-
         setVibrate(true);
         setVibrateIntensity(30);
 
         ((App) getApplication()).getComponent().inject(this);
 
-        rv = (RecyclerView) findViewById(R.id.rv_goals);
-        rv.setHasFixedSize(true);
-        rv.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_goals);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        rv.setItemAnimator(itemAnimator);
+        recyclerView.setItemAnimator(itemAnimator);
 
-        cache.getObjectives().subscribe(objectives -> {
-            setAdapter(new GoalsAdapter(objectives));
-            rv.setAdapter(adapter);
-        });
+        cache.getObjectives().map(GoalsAdapter::new)
+                .doOnSuccess(this::setAdapter)
+                .subscribe(recyclerView::setAdapter);
     }
 
     private void setAdapter(GoalsAdapter adapter) {
@@ -67,13 +62,13 @@ public class IntroActivity extends AppIntro {
     @Override
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
-        // Do something when users tap on Skip button.
     }
 
     @Override
     public void onDonePressed(Fragment currentFragment) {
-        super.onDonePressed(currentFragment);
-        getIntent().putStringArrayListExtra("names", adapter.getNames());
+        Intent intent = new Intent();
+        intent.putStringArrayListExtra("names", adapter.getNames());
+        setResult(RESULT_OK, intent);
         finish();
     }
 
