@@ -1,18 +1,18 @@
 package hu.pe.routengo.entity;
 
-import hu.pe.routengo.R;
 import io.requery.Entity;
 
 
 @Entity
 public abstract class AbstractObjective {
     protected String type;
-    protected int imageId = R.drawable.caption;
+    protected int imageId;
 
     public AbstractObjective() {
     }
 
-    public AbstractObjective(String type) {
+    public AbstractObjective(String type, int imageId) {
         this.type = type;
+        this.imageId = imageId;
     }
 }

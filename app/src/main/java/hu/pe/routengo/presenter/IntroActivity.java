@@ -18,11 +18,11 @@ import hu.pe.routengo.App;
 import hu.pe.routengo.R;
 import hu.pe.routengo.adapter.GoalsAdapter;
 import hu.pe.routengo.adapter.SampleSlide;
-import hu.pe.routengo.model.RouteNGoCache;
+import hu.pe.routengo.model.RouteNGo;
 
 public class IntroActivity extends AppIntro {
     @Inject
-    RouteNGoCache cache;
+    RouteNGo routeNGo;
     private GoalsAdapter adapter;
 
     @Override
@@ -49,7 +49,7 @@ public class IntroActivity extends AppIntro {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        cache.getObjectives().map(GoalsAdapter::new)
+        routeNGo.getObjectives().map(GoalsAdapter::new)
                 .doOnSuccess(this::setAdapter)
                 .subscribe(recyclerView::setAdapter);
     }

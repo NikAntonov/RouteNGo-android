@@ -10,8 +10,6 @@ import hu.pe.routengo.entity.Place;
 import hu.pe.routengo.entity.Route;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import io.requery.Persistable;
 import io.requery.reactivex.ReactiveEntityStore;
 
@@ -29,10 +27,8 @@ public class RouteNGoCache {
     }
 
     public Observable<List<Place>> setPlaceList(List<Place> placeList) {
-        return entityStore.delete(Place.class).get()
-                .single().flatMap(integer -> entityStore.insert(placeList))
-                .flatMapObservable(Observable::fromIterable)
-                .toList().toObservable();
+        return entityStore.upsert(placeList).toObservable()
+                .flatMap(Observable::fromIterable).toList().toObservable();
     }
 
     public Single<Route> addRoute(Route route) {
@@ -56,8 +52,6 @@ public class RouteNGoCache {
     }
 
     public Single<List<Objective>> getObjectives() {
-        return entityStore.select(Objective.class).get().observable().toList()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        return entityStore.select(Objective.class).get().observable().toList();
     }
 }
