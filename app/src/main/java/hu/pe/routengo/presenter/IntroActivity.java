@@ -44,7 +44,7 @@ public class IntroActivity extends AppIntro {
 
         ((App) getApplication()).getComponent().inject(this);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_goals);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_intro_interests);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -1,11 +1,12 @@
 package hu.pe.routengo.adapter;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ToggleButton;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -43,7 +44,10 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.MyViewHolder
                 .load(objective.getImageId())
                 .centerCrop()
                 .into(holder.imageView);
-        holder.button.setOnClickListener(v -> names.add(objective.getType()));
+        holder.textView.setOnClickListener(v -> {
+            names.add(objective.getType());
+            holder.view.setBackgroundColor(Color.CYAN);
+        });
     }
 
     @Override
@@ -54,12 +58,12 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.MyViewHolder
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public View view;
         public ImageView imageView;
-        public ToggleButton button;
+        public TextView textView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             view = itemView;
-            button = (ToggleButton) itemView.findViewById(R.id.toggleButton);
+            textView = (TextView) itemView.findViewById(R.id.txt_card_task);
             imageView = (ImageView) itemView.findViewById(R.id.img_card_task);
         }
     }

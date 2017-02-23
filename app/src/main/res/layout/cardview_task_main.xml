@@ -11,13 +11,12 @@
         android:src="@drawable/caption"
         android:scaleType="centerCrop" />
 
-    <ToggleButton
-        android:id="@+id/toggleButton"
+    <TextView
+        android:id="@+id/txt_card_task"
         style="@style/CardView.Light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@color/colorAccent"
-        android:text="Task"
         android:textColor="@color/cardview_light_background" />
 </LinearLayout>
