@@ -38,11 +38,11 @@ public class CacheModule {
         dataStore = ReactiveSupport.toReactiveStore(new EntityDataStore<Persistable>(configuration));
 
         dataStore.insert(Arrays.asList(
-                new Objective("Historical Places", R.drawable.history_black),
-                new Objective("Shopping", R.drawable.shop_black),
-                new Objective("Bar Megaphones", R.drawable.bar_black),
-                new Objective("Parks and Nature", R.drawable.nature_black),
-                new Objective("Football", R.drawable.football_black))).subscribe();
+                new Objective("history", "Historical Places", R.drawable.history_black),
+                new Objective("shopping", "Shopping", R.drawable.shop_black),
+                new Objective("bar", "Bar Megaphones", R.drawable.bar_black),
+                new Objective("park", "Parks and Nature", R.drawable.nature_black),
+                new Objective("football", "Football", R.drawable.football_black))).subscribe();
         return dataStore;
     }
 }
