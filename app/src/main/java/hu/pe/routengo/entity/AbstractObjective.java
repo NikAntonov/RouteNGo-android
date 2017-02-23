@@ -6,14 +6,13 @@ import io.requery.Entity;
 
 @Entity
 public abstract class AbstractObjective {
-    String name;
-    int imageId = R.drawable.caption;
-    int marked;
+    protected String type;
+    protected int imageId = R.drawable.caption;
 
     public AbstractObjective() {
     }
 
-    public AbstractObjective(String name) {
-        this.name = name;
+    public AbstractObjective(String type) {
+        this.type = type;
     }
 }

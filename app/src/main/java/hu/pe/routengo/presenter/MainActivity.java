@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity
     RouteNGo routeNGo;
 
     private GoogleMap mMap;
-    private RecyclerView rv;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,23 +79,25 @@ public class MainActivity extends AppCompatActivity
 
         ((App) getApplication()).getComponent().inject(this);
 
-        rv = (RecyclerView) findViewById(R.id.rv_main);
-        rv.setHasFixedSize(true);
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        rv.setItemAnimator(itemAnimator);
+        recyclerView = (RecyclerView) findViewById(R.id.rv_main);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_OK) {
             List<String> names = data.getStringArrayListExtra("names");
-            Observable.fromIterable(names).flatMap(routeNGo::getPlaceList)
-                    .map(list -> new Route("Route " + Math.random(), list.get(0).getType(), list))
-                    .toList()
-                    .map(RouteListAdapter::new)
-                    .subscribe(rv::setAdapter);
-
+            Route route = new Route();
+            Observable.fromIterable(names)
+                    .doOnNext(route::setType)
+                    .flatMap(routeNGo::getPlaceList)
+                    .map(places -> {
+                        route.getPlaceList().addAll(places);
+                        return route;
+                    }).toList().map(RouteListAdapter::new)
+                    .subscribe(recyclerView::setAdapter);
         }
     }
 

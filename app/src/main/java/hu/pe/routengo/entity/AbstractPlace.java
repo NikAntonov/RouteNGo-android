@@ -9,86 +9,86 @@ import io.requery.Entity;
 public abstract class AbstractPlace {
     @SerializedName("id")
     @Expose
-    String id;
+    protected String id;
     @SerializedName("name")
     @Expose
-    String name;
+    protected String name;
     @SerializedName("name_en")
     @Expose
-    String nameEn;
+    protected String nameEn;
     @SerializedName("name_pl")
     @Expose
-    String namePl;
+    protected String namePl;
     @SerializedName("name_de")
     @Expose
-    String nameDe;
+    protected String nameDe;
     @SerializedName("name_lt")
     @Expose
-    String nameLt;
+    protected String nameLt;
     @SerializedName("type")
     @Expose
-    String type;
+    protected String type;
     @SerializedName("description")
     @Expose
-    String description;
+    protected String description;
     @SerializedName("description_en")
     @Expose
-    String descriptionEn;
+    protected String descriptionEn;
     @SerializedName("description_pl")
     @Expose
-    String descriptionPl;
+    protected String descriptionPl;
     @SerializedName("description_de")
     @Expose
-    String descriptionDe;
+    protected String descriptionDe;
     @SerializedName("description_lt")
     @Expose
-    String descriptionLt;
+    protected String descriptionLt;
     @SerializedName("country")
     @Expose
-    String country;
+    protected String country;
     @SerializedName("country_en")
     @Expose
-    String countryEn;
+    protected String countryEn;
     @SerializedName("country_pl")
     @Expose
-    String countryPl;
+    protected String countryPl;
     @SerializedName("country_de")
     @Expose
-    String countryDe;
+    protected String countryDe;
     @SerializedName("country_lt")
     @Expose
-    String countryLt;
+    protected String countryLt;
     @SerializedName("city")
     @Expose
-    String city;
+    protected String city;
     @SerializedName("city_en")
     @Expose
-    String cityEn;
+    protected String cityEn;
     @SerializedName("city_pl")
     @Expose
-    String cityPl;
+    protected String cityPl;
     @SerializedName("city_de")
     @Expose
-    String cityDe;
+    protected String cityDe;
     @SerializedName("city_lt")
     @Expose
-    String cityLt;
+    protected String cityLt;
     @SerializedName("region")
     @Expose
-    String region;
+    protected String region;
     @SerializedName("image_url")
     @Expose
-    String imageUrl;
+    protected String imageUrl;
     @SerializedName("website_url")
     @Expose
-    String websiteUrl;
+    protected String websiteUrl;
     @SerializedName("x_latLng")
     @Expose
-    String xLatLng;
+    protected String xLatLng;
     @SerializedName("y_latLng")
     @Expose
-    String yLatLng;
+    protected String yLatLng;
     @SerializedName("time")
     @Expose
-    String time;
+    protected String time;
 }

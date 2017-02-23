@@ -47,8 +47,7 @@ public class IntroActivity extends AppIntro {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_goals);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        recyclerView.setItemAnimator(itemAnimator);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         cache.getObjectives().map(GoalsAdapter::new)
                 .doOnSuccess(this::setAdapter)

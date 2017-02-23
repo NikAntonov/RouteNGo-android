@@ -10,7 +10,6 @@ import android.widget.ToggleButton;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import hu.pe.routengo.R;
@@ -44,11 +43,7 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.MyViewHolder
                 .load(objective.getImageId())
                 .centerCrop()
                 .into(holder.imageView);
-        holder.button.setOnClickListener(v -> {
-            objective.setMarked(1);
-            Collections.sort(objectives, (o1, o2) -> o1.getMarked() - o2.getMarked());
-            names.add(objective.getName());
-        });
+        holder.button.setOnClickListener(v -> names.add(objective.getType()));
     }
 
     @Override
