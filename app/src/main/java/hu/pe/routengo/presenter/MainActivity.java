@@ -25,7 +25,7 @@ import javax.inject.Inject;
 
 import hu.pe.routengo.App;
 import hu.pe.routengo.R;
-import hu.pe.routengo.adapter.RouteListAdapter;
+import hu.pe.routengo.adapter.RouteAdapter;
 import hu.pe.routengo.entity.Route;
 import hu.pe.routengo.model.RouteNGo;
 import io.reactivex.Observable;
@@ -41,20 +41,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Thread t = new Thread(() -> {
-            SharedPreferences getPrefs = PreferenceManager
-                    .getDefaultSharedPreferences(getBaseContext());
-            boolean isFirstStart = getPrefs.getBoolean("firstStart", true);
-            if (isFirstStart) {
-                Intent i = new Intent(MainActivity.this, IntroActivity.class);
-                startActivity(i);
-                SharedPreferences.Editor e = getPrefs.edit();
-                e.putBoolean("firstStart", false);
-                e.apply();
-            }
-        });
-
-        t.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -64,7 +50,7 @@ public class MainActivity extends AppCompatActivity
         if (fab != null) {
             fab.setOnClickListener(view -> {
                 Intent intent = new Intent(MainActivity.this, PlacesActivity.class);
-                startActivityForResult(intent, 2);
+                startActivity(intent);
             });
         }
 
@@ -83,6 +69,20 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+
+        // Completable.complete().subscribeOn(Schedulers.io()).subscribe(() -> {
+        SharedPreferences preferences =
+                PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        boolean isFirstStart = preferences.getBoolean("firstStart", true);
+        if (isFirstStart || true) {
+            Intent intent = new Intent(MainActivity.this, IntroActivity.class);
+            startActivityForResult(intent, 1);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("firstStart", false);
+            editor.apply();
+        }
+        // });
     }
 
     @Override
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity
                     .map(places -> {
                         route.getPlaceList().addAll(places);
                         return route;
-                    }).toList().map(RouteListAdapter::new)
+                    }).toList().map(RouteAdapter::new)
                     .subscribe(recyclerView::setAdapter);
         }
     }

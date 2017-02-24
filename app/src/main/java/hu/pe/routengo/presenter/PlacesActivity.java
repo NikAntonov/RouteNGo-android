@@ -13,7 +13,7 @@ import javax.inject.Inject;
 
 import hu.pe.routengo.App;
 import hu.pe.routengo.R;
-import hu.pe.routengo.adapter.PlaceListAdapter;
+import hu.pe.routengo.adapter.PlaceAdapter;
 import hu.pe.routengo.model.RouteNGo;
 
 public class PlacesActivity extends AppCompatActivity {
@@ -41,7 +41,7 @@ public class PlacesActivity extends AppCompatActivity {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         rv.setItemAnimator(itemAnimator);
 
-        routeNGo.getFullPlaceList().map(PlaceListAdapter::new)
+        routeNGo.getFullPlaceList().map(PlaceAdapter::new)
                 .subscribe(rv::setAdapter, Throwable::printStackTrace);
     }
 }

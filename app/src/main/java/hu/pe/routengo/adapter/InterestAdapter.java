@@ -20,11 +20,11 @@ import hu.pe.routengo.entity.Objective;
  * Created by Galya Sheremetova on 19.02.2017.
  */
 
-public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.MyViewHolder> {
+public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyViewHolder> {
     private List<Objective> objectives;
     private ArrayList<String> names = new ArrayList<>();
 
-    public GoalsAdapter(List<Objective> objectives) {
+    public InterestAdapter(List<Objective> objectives) {
         this.objectives = objectives;
     }
 
@@ -33,12 +33,12 @@ public class GoalsAdapter extends RecyclerView.Adapter<GoalsAdapter.MyViewHolder
     }
 
     @Override
-    public GoalsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public InterestAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_task_main, parent, false);
-        return new GoalsAdapter.MyViewHolder(v);
+        return new InterestAdapter.MyViewHolder(v);
     }
 
-    public void onBindViewHolder(final GoalsAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final InterestAdapter.MyViewHolder holder, int position) {
         Objective objective = objectives.get(position);
         Glide.with(holder.view.getContext())
                 .load(objective.getImageId())

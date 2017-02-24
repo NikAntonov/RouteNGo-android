@@ -20,7 +20,7 @@ import hu.pe.routengo.presenter.PlaceInfoActivity;
  * Created by anton on 18.02.2017.
  */
 
-public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.MyViewHolder> {
+public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.MyViewHolder> {
 
     private List<Place> placeList;
 
@@ -28,19 +28,19 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.MyVi
 
 
 
-    public PlaceListAdapter(List<Place> places) {
+    public PlaceAdapter(List<Place> places) {
         placeList = places;
     }
 
 
     @Override
-    public PlaceListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PlaceAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_places_main, parent, false);
-        return new PlaceListAdapter.MyViewHolder(v);
+        return new PlaceAdapter.MyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(final PlaceListAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final PlaceAdapter.MyViewHolder holder, int position) {
         Place place = placeList.get(position);
         holder.name.setText(place.getName());
         holder.shortDescription.setText(place.getDescription());

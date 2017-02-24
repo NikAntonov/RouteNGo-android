@@ -3,77 +3,60 @@ package hu.pe.routengo.presenter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
-import com.github.paolorotolo.appintro.AppIntro;
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
 import javax.inject.Inject;
 
 import hu.pe.routengo.App;
 import hu.pe.routengo.R;
-import hu.pe.routengo.adapter.GoalsAdapter;
-import hu.pe.routengo.adapter.SampleSlide;
+import hu.pe.routengo.adapter.InterestAdapter;
+import hu.pe.routengo.adapter.IntroAdapter;
 import hu.pe.routengo.model.RouteNGo;
 
-public class IntroActivity extends AppIntro {
+public class IntroActivity extends AppCompatActivity {
     @Inject
     RouteNGo routeNGo;
-    private GoalsAdapter adapter;
+    private InterestAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addSlide(AppIntroFragment.newInstance("Welcome!", "For creating routes we need to know what are you like",
-                R.drawable.man, ContextCompat.getColor(this, R.color.colorPrimary)));
-        addSlide(SampleSlide.newInstance(R.layout.intro_slide_interests));
-        addSlide(AppIntroFragment.newInstance("Location", "We need to know your location to use main features to Route'N'Go",
-                R.drawable.location_white, ContextCompat.getColor(this, R.color.colorPrimary)));
-        addSlide(SampleSlide.newInstance(R.layout.intro_slide_letgo));
+        setContentView(R.layout.activity_intro);
+        /*setBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        setSeparatorColor(ContextCompat.getColor(this, R.color.colorPrimary));*/
 
-        setBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        setSeparatorColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        showSkipButton(false);
-        setProgressButtonEnabled(true);
-        setVibrate(true);
-        setVibrateIntensity(30);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        IntroAdapter pagerAdapter = new IntroAdapter(getSupportFragmentManager());
+
+        pagerAdapter.setFragments(AppIntroFragment.newInstance("Welcome!", "For creating routes we need to know what are you like",
+                R.drawable.man, ContextCompat.getColor(this, R.color.colorPrimary)),
+                new InterestFragment(),
+                AppIntroFragment.newInstance("Location", "We need to know your location to use main features to Route'N'Go",
+                        R.drawable.location_white, ContextCompat.getColor(this, R.color.colorPrimary)),
+                new LetGoFragment());
+        viewPager.setAdapter(pagerAdapter);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_intro);
+        fab.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            intent.putStringArrayListExtra("names", adapter.getNames());
+            setResult(RESULT_OK, intent);
+            finish();
+        });
 
         ((App) getApplication()).getComponent().inject(this);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_intro_interests);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        routeNGo.getObjectives().map(GoalsAdapter::new)
+        routeNGo.getObjectives().map(InterestAdapter::new)
                 .doOnSuccess(this::setAdapter)
-                .subscribe(recyclerView::setAdapter);
+                .subscribe(((InterestFragment) pagerAdapter.getItem(1))::setAdapter);
     }
 
-    private void setAdapter(GoalsAdapter adapter) {
+    private void setAdapter(InterestAdapter adapter) {
         this.adapter = adapter;
-    }
-
-    @Override
-    public void onSkipPressed(Fragment currentFragment) {
-        super.onSkipPressed(currentFragment);
-    }
-
-    @Override
-    public void onDonePressed(Fragment currentFragment) {
-        Intent intent = new Intent();
-        intent.putStringArrayListExtra("names", adapter.getNames());
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    @Override
-    public void onSlideChanged(@Nullable Fragment oldFragment, @Nullable Fragment newFragment) {
-        super.onSlideChanged(oldFragment, newFragment);
-        // Do something when the slide changes.
     }
 }

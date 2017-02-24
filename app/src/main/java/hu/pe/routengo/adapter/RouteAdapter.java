@@ -20,14 +20,14 @@ import hu.pe.routengo.presenter.MapsActivity;
 /**
  * Created by anton on 18.02.2017.
  */
-public class RouteListAdapter extends RecyclerView.Adapter<RouteListAdapter.MyViewHolder> {
+public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder> {
 
     private List<Route> mData;
     public static String username;
     private TextView time;
     private TextView distance;
 
-    public RouteListAdapter(List<Route> routes) {
+    public RouteAdapter(List<Route> routes) {
         mData = routes;
     }
 
