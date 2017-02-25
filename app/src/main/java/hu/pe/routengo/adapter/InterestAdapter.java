@@ -22,14 +22,14 @@ import hu.pe.routengo.entity.Objective;
 
 public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyViewHolder> {
     private List<Objective> objectives;
-    private ArrayList<String> names = new ArrayList<>();
+    private ArrayList<String> types = new ArrayList<>();
 
     public InterestAdapter(List<Objective> objectives) {
         this.objectives = objectives;
     }
 
-    public ArrayList<String> getNames() {
-        return names;
+    public ArrayList<String> getTypes() {
+        return types;
     }
 
     @Override
@@ -42,10 +42,9 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
         Objective objective = objectives.get(position);
         Glide.with(holder.view.getContext())
                 .load(objective.getImageId())
-                .centerCrop()
                 .into(holder.imageView);
         holder.textView.setOnClickListener(v -> {
-            names.add(objective.getType());
+            types.add(objective.getType());
             holder.view.setBackgroundColor(Color.CYAN);
         });
     }
@@ -56,9 +55,9 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public View view;
-        public ImageView imageView;
-        public TextView textView;
+        View view;
+        ImageView imageView;
+        TextView textView;
 
         public MyViewHolder(View itemView) {
             super(itemView);

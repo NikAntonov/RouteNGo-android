@@ -44,7 +44,7 @@ public class IntroActivity extends AppCompatActivity {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_intro);
         fab.setOnClickListener(view -> {
             Intent intent = new Intent();
-            intent.putStringArrayListExtra("names", adapter.getNames());
+            intent.putStringArrayListExtra("types", adapter.getTypes());
             setResult(RESULT_OK, intent);
             finish();
         });
@@ -52,11 +52,17 @@ public class IntroActivity extends AppCompatActivity {
         ((App) getApplication()).getComponent().inject(this);
 
         routeNGo.getObjectives().map(InterestAdapter::new)
-                .doOnSuccess(this::setAdapter)
+                .doOnSuccess(adapter -> this.adapter = adapter)
                 .subscribe(((InterestFragment) pagerAdapter.getItem(1))::setAdapter);
     }
 
-    private void setAdapter(InterestAdapter adapter) {
-        this.adapter = adapter;
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

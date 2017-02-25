@@ -88,15 +88,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_OK) {
-            List<String> names = data.getStringArrayListExtra("names");
-            Route route = new Route();
-            Observable.fromIterable(names)
-                    .doOnNext(route::setType)
-                    .flatMap(routeNGo::getPlaceList)
-                    .map(places -> {
-                        route.getPlaceList().addAll(places);
-                        return route;
-                    }).toList().map(RouteAdapter::new)
+            List<String> types = data.getStringArrayListExtra("types");
+            Observable.fromIterable(types)
+                    .flatMap(type -> routeNGo.getPlaceList(type)
+                            .map(placeList -> {
+                                Route route = new Route();
+                                route.setType(type);
+                                route.getPlaceList().addAll(placeList);
+                                return route;
+                            })).toList().map(RouteAdapter::new)
                     .subscribe(recyclerView::setAdapter);
         }
     }
