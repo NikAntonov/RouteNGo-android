@@ -91,12 +91,10 @@ public class MainActivity extends AppCompatActivity
             List<String> types = data.getStringArrayListExtra("types");
             Observable.fromIterable(types)
                     .flatMap(type -> routeNGo.getPlaceList(type)
-                            .map(placeList -> {
-                                Route route = new Route();
-                                route.setType(type);
-                                route.getPlaceList().addAll(placeList);
-                                return route;
-                            })).toList().map(RouteAdapter::new)
+                    .flatMap(placeList -> Observable.just(new Route())
+                            .doOnNext(route -> route.setType(type))
+                            .doOnNext(route -> route.getPlaceList().addAll(placeList))
+                    )).toList().map(RouteAdapter::new)
                     .subscribe(recyclerView::setAdapter);
         }
     }
