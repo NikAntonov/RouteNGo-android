@@ -74,6 +74,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         Collections.sort(list, (LatLng l1, LatLng o2) -> Double.compare(l1.latitude, o2.latitude)
         );
+
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).latitude == 0)
+                list.remove(i);
+        }
+
         LatLng latLng1 = list.get(0);
         LatLng latLng2 = list.get(list.size() - 1);
         polylineOptions.addAll(list);
