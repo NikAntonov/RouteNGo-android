@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity
                             .flatMap(placeList -> Observable.just(new Route())
                                     .doOnNext(route -> route.setType(type))
                                     .doOnNext(route -> route.getPlaceList().addAll(placeList))
+                                    .doOnNext(route -> Log.i("tag","************"+route.getPlaceList().size()))
                             )).toList().map(RouteAdapter::new)
                     .subscribe(recyclerView::setAdapter);
         }
