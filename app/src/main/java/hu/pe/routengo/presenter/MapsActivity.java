@@ -21,6 +21,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,7 +35,7 @@ import hu.pe.routengo.entity.Route;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     FloatingActionButton fab;
-    private Route route;
+    Route route;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        route = getIntent().getParcelableExtra("route");
+        Gson gson = new GsonBuilder().create();
+        String string = getIntent().getStringExtra("route");
+        route = gson.fromJson(string, Route.class);
     }
 
     @Override

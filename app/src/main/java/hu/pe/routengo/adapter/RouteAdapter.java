@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
@@ -63,7 +65,9 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder
                 .setMessage("You will visit historical places in range 7 km")
                 .setPositiveButton("Yes", (dialog, arg1) -> {
                     Intent intent = new Intent(context, MapsActivity.class);
-                    intent.putExtra("route", route);
+                    Gson gson = new GsonBuilder().create();
+                    String string = gson.toJson(route);
+                    intent.putExtra("route", string);
                     context.startActivity(intent);
                 }).setNegativeButton("Cancel", (dialog, arg1) -> {
                     dialog.dismiss();

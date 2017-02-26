@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
@@ -50,7 +49,6 @@ public class IntroActivity extends AppCompatActivity {
         fab.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.putStringArrayListExtra("types", adapter.getTypes());
-            Log.i("tag", String.valueOf(adapter.getTypes().size()));
             setResult(RESULT_OK, intent);
             finish();
         });

@@ -1,12 +1,14 @@
 package hu.pe.routengo.entity;
 
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import io.requery.Entity;
 
 @Entity
-public abstract class AbstractPlace {
+public abstract class AbstractPlace implements Parcelable {
     @SerializedName("id")
     @Expose
     protected String id;
