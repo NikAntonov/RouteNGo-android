@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -20,6 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -63,18 +62,24 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap map) {
-        PolylineOptions opt = new PolylineOptions();
+        PolylineOptions polylineOptions = new PolylineOptions();
+        MarkerOptions markerOptions = new MarkerOptions();
         List<Place> places = route.getPlaceList();
         List<LatLng> list = new ArrayList<>(places.size());
-        for (Place place : places)
-            list.add(new LatLng(Double.parseDouble(place.getXLatLng()), Double.parseDouble(place.getYLatLng())));
-
-        LatLng latLng1 = Collections.min(list, (LatLng l1, LatLng o2) -> Double.compare(l1.latitude, o2.latitude));
-        LatLng latLng2 = Collections.max(list, (LatLng l1, LatLng o2) -> Double.compare(l1.latitude, o2.latitude));
-        opt.addAll(list);
-        map.addPolyline(opt);
+        for (Place place : places) {
+            LatLng latLng = new LatLng(Double.parseDouble(place.getXLatLng()), Double.parseDouble(place.getYLatLng()));
+            list.add(latLng);
+            // polylineOptions.add(latLng);
+            map.addMarker(markerOptions.position(latLng));
+        }
+        Collections.sort(list, (LatLng l1, LatLng o2) -> Double.compare(l1.latitude, o2.latitude)
+        );
+        LatLng latLng1 = list.get(0);
+        LatLng latLng2 = list.get(list.size() - 1);
+        polylineOptions.addAll(list);
+        map.addPolyline(polylineOptions);
         //map.addMarker(new MarkerOptions().position(new LatLng(-34, 151)));
-        map.moveCamera(CameraUpdateFactory.newLatLngBounds(new LatLngBounds(latLng1, latLng2), 0));
+        map.moveCamera(CameraUpdateFactory.newLatLngBounds(new LatLngBounds(latLng1, latLng2), 1));
         map.setOnMarkerClickListener(this);
     }
 
@@ -119,11 +124,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+      /*  DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-        }
+        }*/
+        super.onBackPressed();
     }
 }
