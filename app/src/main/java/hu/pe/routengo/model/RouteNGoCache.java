@@ -14,9 +14,7 @@ import io.requery.Persistable;
 import io.requery.reactivex.ReactiveEntityStore;
 
 
-/**
- * Created by Galya Sheremetova on 18.02.2017.
- */
+
 @Singleton
 public class RouteNGoCache {
     private ReactiveEntityStore<Persistable> entityStore;

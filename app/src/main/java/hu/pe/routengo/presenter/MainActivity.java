@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT_OK) {
+        if (requestCode == 1) {
             List<String> types = data.getStringArrayListExtra("types");
             Observable.fromIterable(types)
                     .flatMap(type -> routeNGo.getPlaceList(type)

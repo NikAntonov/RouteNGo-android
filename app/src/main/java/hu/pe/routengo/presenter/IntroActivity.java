@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.github.paolorotolo.appintro.AppIntroFragment;
 
@@ -33,9 +34,13 @@ public class IntroActivity extends AppCompatActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         IntroAdapter pagerAdapter = new IntroAdapter(getSupportFragmentManager());
 
+
+        ((App) getApplication()).getComponent().inject(this);
+
         pagerAdapter.setFragments(AppIntroFragment.newInstance("Welcome!", "For creating routes we need to know what are you like",
                 R.drawable.man, ContextCompat.getColor(this, R.color.colorPrimary)),
-                new InterestFragment(),
+                new InterestFragment(routeNGo.getObjectives().map(InterestAdapter::new)
+                        .doOnSuccess(adapter -> this.adapter = adapter)),
                 AppIntroFragment.newInstance("Location", "We need to know your location to use main features to Route'N'Go",
                         R.drawable.location_white, ContextCompat.getColor(this, R.color.colorPrimary)),
                 new LetGoFragment());
@@ -45,15 +50,10 @@ public class IntroActivity extends AppCompatActivity {
         fab.setOnClickListener(view -> {
             Intent intent = new Intent();
             intent.putStringArrayListExtra("types", adapter.getTypes());
+            Log.i("tag", String.valueOf(adapter.getTypes().size()));
             setResult(RESULT_OK, intent);
             finish();
         });
-
-        ((App) getApplication()).getComponent().inject(this);
-
-        routeNGo.getObjectives().map(InterestAdapter::new)
-                .doOnSuccess(adapter -> this.adapter = adapter)
-                .subscribe(((InterestFragment) pagerAdapter.getItem(1))::setAdapter);
     }
 
     @Override

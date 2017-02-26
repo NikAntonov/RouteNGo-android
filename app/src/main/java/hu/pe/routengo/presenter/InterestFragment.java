@@ -12,14 +12,21 @@ import android.view.ViewGroup;
 
 import hu.pe.routengo.R;
 import hu.pe.routengo.adapter.InterestAdapter;
+import io.reactivex.Single;
+import io.reactivex.disposables.Disposable;
 
 
 public class InterestFragment extends Fragment {
 
     private RecyclerView recyclerView;
+    private Single<InterestAdapter> single;
+    private Disposable disposable;
 
     public InterestFragment() {
-        // Required empty public constructor
+    }
+
+    public InterestFragment(Single<InterestAdapter> single) {
+        this.single = single;
     }
 
     @Override
@@ -37,14 +44,14 @@ public class InterestFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        disposable = single.subscribe(recyclerView::setAdapter);
 
         return view;
     }
 
-    public void setAdapter(InterestAdapter adapter) {
-        recyclerView.setAdapter(adapter);
-    }
+    public void setSingle() {
 
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -53,6 +60,7 @@ public class InterestFragment extends Fragment {
 
     @Override
     public void onDetach() {
+        disposable.dispose();
         super.onDetach();
     }
 }
