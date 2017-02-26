@@ -13,8 +13,8 @@ public abstract class AbstractObjective {
     }
 
     public AbstractObjective(String type, String name, int imageId) {
-        this.name = name;
         this.type = type;
+        this.name = name;
         this.imageId = imageId;
     }
 }
