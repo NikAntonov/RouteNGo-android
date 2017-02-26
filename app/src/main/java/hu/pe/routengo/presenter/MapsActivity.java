@@ -33,6 +33,7 @@ import hu.pe.routengo.entity.Route;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     FloatingActionButton fab;
+    private Route route;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +54,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        route = getIntent().getParcelableExtra("route");
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
-        Route route = getIntent().getParcelableExtra("route");
         PolylineOptions opt = new PolylineOptions();
         List<Place> places = route.getPlaceList();
         List<LatLng> list = new ArrayList<>(places.size());

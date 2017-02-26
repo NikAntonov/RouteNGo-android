@@ -44,6 +44,7 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
                 .load(objective.getImageId())
                 .into(holder.imageView);
         holder.textView.setOnClickListener(v -> {
+            //types.add(objective.getType());
             types.add(objective.getType());
             holder.view.setBackgroundColor(Color.CYAN);
         });

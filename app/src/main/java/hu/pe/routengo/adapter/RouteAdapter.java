@@ -1,8 +1,10 @@
 package hu.pe.routengo.adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,38 +43,31 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Route route = mData.get(position);
+        Context context = holder.view.getContext();
+        Log.i("tag", route.getType());
         if (route.getType().equals("bar")) {
-            Glide.with(holder.view.getContext())
+            Glide.with(context)
                     .load(R.drawable.bar_black)
                     .centerCrop()
                     .into(holder.type);
         } else {
-            Glide.with(holder.view.getContext())
+            Glide.with(context)
                     .load(R.drawable.history_black)
                     .centerCrop()
                     .into(holder.type);
         }
         holder.time.setText(route.getName());
 
-        holder.view.setOnClickListener(v -> {
-            AlertDialog.Builder ad = new AlertDialog.Builder(holder.view.getContext());
-
-            ad.setTitle("Start this route?");  // заголовок
-            ad.setMessage("You will vizit historical places in range 7 km"); // сообщение
-            ad.setPositiveButton("Yes", (dialog, arg1) -> {
-                Intent intent = new Intent(holder.view.getContext(), MapsActivity.class);
-                intent.putExtra("route", route);
-                holder.view.getContext().startActivity(intent);
-            });
-            ad.setNegativeButton("Cancel", (dialog, arg1) -> {
-                dialog.dismiss();
-            });
-            ad.setCancelable(true);
-            AlertDialog alert = ad.create();
-            ad.show();
-        });
-
-
+        holder.view.setOnClickListener(v -> new AlertDialog.Builder(context)
+                .setTitle("Start this route?")
+                .setMessage("You will visit historical places in range 7 km")
+                .setPositiveButton("Yes", (dialog, arg1) -> {
+                    Intent intent = new Intent(context, MapsActivity.class);
+                    intent.putExtra("route", route);
+                    context.startActivity(intent);
+                }).setNegativeButton("Cancel", (dialog, arg1) -> {
+                    dialog.dismiss();
+                }).setCancelable(true).create().show());
     }
 
     @Override
