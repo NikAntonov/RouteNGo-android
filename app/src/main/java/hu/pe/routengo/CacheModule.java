@@ -37,7 +37,7 @@ public class CacheModule {
         Configuration configuration = source.getConfiguration();
         dataStore = ReactiveSupport.toReactiveStore(new EntityDataStore<Persistable>(configuration));
 
-        if (dataStore.count(Objective.class).get().value() == 0)
+        if (dataStore.count(Objective.class).get().value().equals(Integer.valueOf(0)))
             dataStore.insert(Arrays.asList(
                     new Objective("history", "Historical Places", R.drawable.history_black),
                     new Objective("shopping", "Shopping", R.drawable.shop_black),
