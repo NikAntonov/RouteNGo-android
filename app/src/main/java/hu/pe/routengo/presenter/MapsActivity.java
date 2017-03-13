@@ -64,15 +64,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap map) {
         PolylineOptions polylineOptions = new PolylineOptions();
         MarkerOptions markerOptions = new MarkerOptions();
-        List<Place> places = route.getPlaceList();
+        List<Place> places = route.getPlaces();
         List<LatLng> list = new ArrayList<>(places.size());
-        for (Place place : places) {
-            if (!place.getXLatLng().equals("0")) {
-                LatLng latLng = new LatLng(Double.parseDouble(place.getXLatLng()), Double.parseDouble(place.getYLatLng()));
-                list.add(latLng);
-                map.addMarker(markerOptions.position(latLng));
-            }
-        }
+        places.stream().filter(place -> !place.getXLatLng().equals("0")).forEach(place -> {
+            LatLng latLng = new LatLng(Double.parseDouble(place.getXLatLng()), Double.parseDouble(place.getYLatLng()));
+            list.add(latLng);
+            map.addMarker(markerOptions.position(latLng));
+        });
         Collections.sort(list, (LatLng l1, LatLng o2) -> Double.compare(l1.latitude, o2.latitude)
         );
 

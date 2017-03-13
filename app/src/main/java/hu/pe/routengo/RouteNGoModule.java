@@ -9,13 +9,13 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import hu.pe.routengo.model.RouteNGo;
-import hu.pe.routengo.model.RouteNGoService;
+import hu.pe.routengo.model.RouteNGoApi;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
-public class ServiceModule {
+public class RouteNGoModule {
     @Provides
     @Singleton
     OkHttpClient client() {
@@ -42,7 +42,7 @@ public class ServiceModule {
 
     @Provides
     @Singleton
-    RouteNGoService routeNGoService(Retrofit retrofit) {
-        return retrofit.create(RouteNGoService.class);
+    RouteNGoApi routeNGoApi(Retrofit retrofit) {
+        return retrofit.create(RouteNGoApi.class);
     }
 }

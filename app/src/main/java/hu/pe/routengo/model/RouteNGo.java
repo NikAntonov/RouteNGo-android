@@ -20,11 +20,11 @@ import io.reactivex.schedulers.Schedulers;
 public class RouteNGo {
     public static final String URL = "http://routengo.pe.hu/admin/api/";
 
-    private RouteNGoService service;
+    private RouteNGoApi service;
     private RouteNGoCache cache;
 
     @Inject
-    public RouteNGo(RouteNGoService service, RouteNGoCache cache) {
+    public RouteNGo(RouteNGoApi service, RouteNGoCache cache) {
         this.service = service;
         this.cache = cache;
     }

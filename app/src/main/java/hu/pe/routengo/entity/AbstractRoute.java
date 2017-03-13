@@ -9,14 +9,14 @@ import io.requery.ManyToMany;
 
 @Entity
 public abstract class AbstractRoute implements Parcelable {
-    protected String time = "52 min";
-    protected String distance = "7.1 km";
-    protected String places = "Lorem ipsum dolor sit amet";
+    protected String time;
+    protected String distance;
     protected String type;
     protected String name;
     protected String date;
+    protected String points;
     @ManyToMany
-    protected List<Place> placeList;
+    protected List<Place> places;
 
 
 }
