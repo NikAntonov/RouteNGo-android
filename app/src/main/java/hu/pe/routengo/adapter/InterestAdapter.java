@@ -40,6 +40,7 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
 
     public void onBindViewHolder(final InterestAdapter.MyViewHolder holder, int position) {
         Objective objective = objectives.get(position);
+        holder.textView.setText(objective.getName());
         Glide.with(holder.view.getContext())
                 .load(objective.getImageId())
                 .into(holder.imageView);

@@ -6,26 +6,27 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.directions.route.Routing;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import hu.pe.routengo.R;
 import hu.pe.routengo.entity.Place;
@@ -62,24 +63,34 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap map) {
-        PolylineOptions polylineOptions = new PolylineOptions();
         MarkerOptions markerOptions = new MarkerOptions();
-        List<Place> places = route.getPlaces();
-        List<LatLng> list = new ArrayList<>(places.size());
-        places.stream().filter(place -> !place.getXLatLng().equals("0")).forEach(place -> {
-            LatLng latLng = new LatLng(Double.parseDouble(place.getXLatLng()), Double.parseDouble(place.getYLatLng()));
-            list.add(latLng);
-            map.addMarker(markerOptions.position(latLng));
-        });
-        Collections.sort(list, (LatLng l1, LatLng o2) -> Double.compare(l1.latitude, o2.latitude)
-        );
+        List<Place> places = this.route.getPlaces();
+        Log.i("tag", String.valueOf(places.size()));
+        List<LatLng> waypoints = new ArrayList<>(places.size());
+        for (Place place : places) {
+            if (!place.getXLatLng().equals("0")) {
+                LatLng latLng = new LatLng(Double.parseDouble(place.getXLatLng()), Double.parseDouble(place.getYLatLng()));
+                waypoints.add(latLng);
+                map.addMarker(markerOptions.position(latLng));
+            }
+        }
+        //Log.i("tag", String.valueOf(waypoints.size()));
+        Collections.sort(waypoints, (LatLng l1, LatLng o2) -> Double.compare(l1.latitude, o2.latitude));
 
-        LatLng latLng1 = list.get(0);
-        LatLng latLng2 = list.get(list.size() - 1);
-        polylineOptions.addAll(list);
-        map.addPolyline(polylineOptions);
-        //map.addMarker(new MarkerOptions().position(new LatLng(-34, 151)));
-        map.moveCamera(CameraUpdateFactory.newLatLngBounds(new LatLngBounds(latLng1, latLng2), 1));
+        try {
+            com.directions.route.Route route = new Routing.Builder()
+                    .travelMode(Routing.TravelMode.WALKING)
+                    .waypoints(waypoints)
+                    .key("AIzaSyDUy3ZlCR2WJD-06m6uL9aNsYz9EEVSjDc")
+                    .build().get().get(0);
+            map.addPolyline(route.getPolyOptions());
+            map.moveCamera(CameraUpdateFactory.newLatLngBounds(route.getLatLgnBounds(), 10));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
         map.setOnMarkerClickListener(this);
     }
 
