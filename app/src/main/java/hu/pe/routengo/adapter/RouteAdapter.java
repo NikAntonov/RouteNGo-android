@@ -45,6 +45,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         Route route = mData.get(position);
+
         Context context = holder.view.getContext();
         Log.i("tag", route.getType());
         if (route.getType().equals("bar")) {

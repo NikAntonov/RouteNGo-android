@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -91,9 +92,10 @@ public class MainActivity extends AppCompatActivity
             List<String> types = data.getStringArrayListExtra("types");
             Observable.fromIterable(types)
                     .flatMap(type -> routeNGo.getPlaceList(type)
-                            .flatMap(placeList -> Observable.just(new Route())
+                            .flatMap(places -> Observable.just(new Route())
                                     .doOnNext(route -> route.setType(type))
-                                    .doOnNext(route -> route.getPlaces().addAll(placeList))
+                                    .doOnNext(route -> route.getPlaces().addAll(places))
+                                    .doOnNext(route -> Log.i("tag", "!" + String.valueOf(places.size())))
                             )).toList().map(RouteAdapter::new)
                     .subscribe(recyclerView::setAdapter);
         }
