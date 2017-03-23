@@ -12,30 +12,33 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.directions.route.Routing;
+import com.akexorcist.googledirection.DirectionCallback;
+import com.akexorcist.googledirection.GoogleDirection;
+import com.akexorcist.googledirection.constant.TransportMode;
+import com.akexorcist.googledirection.model.Direction;
+import com.akexorcist.googledirection.model.Route;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import hu.pe.routengo.R;
 import hu.pe.routengo.entity.Place;
-import hu.pe.routengo.entity.Route;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     FloatingActionButton fab;
-    Route route;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,17 +57,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         fab.setOnClickListener(view -> {
 
         });
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Gson gson = new GsonBuilder().create();
-        String string = getIntent().getStringExtra("route");
-        route = gson.fromJson(string, Route.class);
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
         MarkerOptions markerOptions = new MarkerOptions();
-        List<Place> places = this.route.getPlaces();
+        Gson gson = new GsonBuilder().create();
+        String string = getIntent().getStringExtra("route");
+
+        List<Place> places = gson.fromJson(string, hu.pe.routengo.entity.Route.class).getPlaces();
         Log.i("tag", String.valueOf(places.size()));
         List<LatLng> waypoints = new ArrayList<>(places.size());
         for (Place place : places) {
@@ -77,19 +78,32 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Log.i("tag", String.valueOf(waypoints.size()));
         Collections.sort(waypoints, (LatLng l1, LatLng o2) -> Double.compare(l1.latitude, o2.latitude));
 
-        try {
-            com.directions.route.Route route = new Routing.Builder()
-                    .travelMode(Routing.TravelMode.WALKING)
-                    .waypoints(waypoints)
-                    .key("AIzaSyDUy3ZlCR2WJD-06m6uL9aNsYz9EEVSjDc")
-                    .build().get().get(0);
-            map.addPolyline(route.getPolyOptions());
-            map.moveCamera(CameraUpdateFactory.newLatLngBounds(route.getLatLgnBounds(), 10));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        GoogleDirection.withServerKey("AIzaSyDUy3ZlCR2WJD-06m6uL9aNsYz9EEVSjDc")
+                .from(waypoints.get(0))
+                .to(waypoints.get(waypoints.size() - 1))
+                .waypoints(waypoints.subList(1, waypoints.size() - 1))
+                .transportMode(TransportMode.WALKING)
+                .execute(new DirectionCallback() {
+                    @Override
+                    public void onDirectionSuccess(Direction direction, String rawBody) {
+                        if (direction.isOK()) {
+                            Route route = direction.getRouteList().get(0);
+                            map.addPolyline(new PolylineOptions().addAll(route.getOverviewPolyline().getPointList()));
+                            LatLngBounds bounds = new LatLngBounds(
+                                    route.getBound().getSouthwestCoordination().getCoordination(),
+                                    route.getBound().getNortheastCoordination().getCoordination());
+                            map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
+                        } else {
+                            // Do something
+                        }
+                    }
+
+                    @Override
+                    public void onDirectionFailure(Throwable t) {
+                        // Do something
+                    }
+                });
+
 
         map.setOnMarkerClickListener(this);
     }
