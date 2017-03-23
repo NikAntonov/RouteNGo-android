@@ -42,7 +42,7 @@ public class CacheModule {
                     new Objective("history", "Historical Places", R.drawable.history_black),
                     new Objective("shopping", "Shopping", R.drawable.shop_black),
                     new Objective("bar", "Bar Marathons", R.drawable.bar_black),
-                    new Objective("park", "Parks and Nature", R.drawable.nature_black),
+                    new Objective("nature", "Parks and Nature", R.drawable.nature_black),
                     new Objective("football", "Football", R.drawable.football_black))).subscribe();
         return dataStore;
     }
