@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.akexorcist.googledirection.DirectionCallback;
 import com.akexorcist.googledirection.GoogleDirection;
@@ -39,6 +40,7 @@ import hu.pe.routengo.entity.Place;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     FloatingActionButton fab;
+    List<Place> places;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,17 +59,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         fab.setOnClickListener(view -> {
 
         });
+        Gson gson = new GsonBuilder().create();
+        String string = getIntent().getStringExtra("route");
+        places = gson.fromJson(string, hu.pe.routengo.entity.Route.class).getPlaces();
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
         MarkerOptions markerOptions = new MarkerOptions();
-        Gson gson = new GsonBuilder().create();
-        String string = getIntent().getStringExtra("route");
-
-        List<Place> places = gson.fromJson(string, hu.pe.routengo.entity.Route.class).getPlaces();
         Log.i("tag", String.valueOf(places.size()));
         List<LatLng> waypoints = new ArrayList<>(places.size());
+        Collections.sort(places, (Place p1, Place p2) -> p1.getYLatLng().compareTo(p2.getYLatLng()));
         for (Place place : places) {
             if (!place.getXLatLng().equals("0")) {
                 LatLng latLng = new LatLng(Double.parseDouble(place.getXLatLng()), Double.parseDouble(place.getYLatLng()));
@@ -75,8 +77,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 map.addMarker(markerOptions.position(latLng));
             }
         }
-        //Log.i("tag", String.valueOf(waypoints.size()));
-        Collections.sort(waypoints, (LatLng l1, LatLng o2) -> Double.compare(l1.latitude, o2.latitude));
 
         GoogleDirection.withServerKey("AIzaSyDUy3ZlCR2WJD-06m6uL9aNsYz9EEVSjDc")
                 .from(waypoints.get(0))
@@ -93,6 +93,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     route.getBound().getSouthwestCoordination().getCoordination(),
                                     route.getBound().getNortheastCoordination().getCoordination());
                             map.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10));
+                            map.setOnMarkerClickListener(MapsActivity.this);
                         } else {
                             // Do something
                         }
@@ -103,9 +104,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         // Do something
                     }
                 });
-
-
-        map.setOnMarkerClickListener(this);
     }
 
     @Override
@@ -126,9 +124,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
-        LinearLayout llBottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(llBottomSheet);
+        LinearLayout bottomSheet = (LinearLayout) findViewById(R.id.bottom_sheet);
+        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        TextView title = (TextView) bottomSheet.findViewById(R.id.title_place);
+        TextView description = (TextView) bottomSheet.findViewById(R.id.description_place);
+        for (Place place : places) {
+            if (marker.getPosition().equals(new LatLng(Double.valueOf(place.getXLatLng()), Double.valueOf(place.getYLatLng())))) {
+                title.setText(place.getName());
+                description.setText(place.getDescription());
+                break;
+            }
+        }
 
         bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
