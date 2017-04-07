@@ -79,9 +79,7 @@ public class MainActivity extends AppCompatActivity
         if (isFirstStart || true) {
             Intent intent = new Intent(MainActivity.this, IntroActivity.class);
             startActivityForResult(intent, 1);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("firstStart", false);
-            editor.apply();
+            preferences.edit().putBoolean("firstStart", false).apply();
         }
         // });
     }
