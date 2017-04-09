@@ -5,7 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hu.pe.routengo.entity.Objective;
+import hu.pe.routengo.entity.Interest;
 import hu.pe.routengo.entity.Place;
 import hu.pe.routengo.entity.Route;
 import io.reactivex.Observable;
@@ -49,7 +49,7 @@ public class RouteNGoCache {
                 .toList().toObservable();
     }
 
-    public Single<List<Objective>> getObjectives() {
-        return entityStore.select(Objective.class).get().observable().toList();
+    public Single<List<Interest>> getInterests() {
+        return entityStore.select(Interest.class).get().observable().toList();
     }
 }

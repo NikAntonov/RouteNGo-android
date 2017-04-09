@@ -4,15 +4,15 @@ import io.requery.Entity;
 
 
 @Entity
-public abstract class AbstractObjective {
+public abstract class AbstractInterest {
     protected String type;
     protected String name;
     protected int imageId;
 
-    public AbstractObjective() {
+    public AbstractInterest() {
     }
 
-    public AbstractObjective(String type, String name, int imageId) {
+    public AbstractInterest(String type, String name, int imageId) {
         this.type = type;
         this.name = name;
         this.imageId = imageId;

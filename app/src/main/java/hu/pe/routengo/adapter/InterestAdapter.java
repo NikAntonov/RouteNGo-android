@@ -14,17 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hu.pe.routengo.R;
-import hu.pe.routengo.entity.Objective;
+import hu.pe.routengo.entity.Interest;
+
 
 /**
  * Created by Galya Sheremetova on 19.02.2017.
  */
 
 public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyViewHolder> {
-    private List<Objective> objectives;
+    private List<Interest> objectives;
     private ArrayList<String> types = new ArrayList<>();
 
-    public InterestAdapter(List<Objective> objectives) {
+    public InterestAdapter(List<Interest> objectives) {
         this.objectives = objectives;
     }
 
@@ -39,7 +40,7 @@ public class InterestAdapter extends RecyclerView.Adapter<InterestAdapter.MyView
     }
 
     public void onBindViewHolder(final InterestAdapter.MyViewHolder holder, int position) {
-        Objective objective = objectives.get(position);
+        Interest objective = objectives.get(position);
         holder.textView.setText(objective.getName());
         Glide.with(holder.view.getContext())
                 .load(objective.getImageId())

@@ -1,7 +1,9 @@
 package hu.pe.routengo.presenter;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -54,7 +57,7 @@ public class IntroActivity extends AppCompatActivity
 
         pagerAdapter.setFragments(AppIntroFragment.newInstance("Welcome!", "For creating routes we need to know what are you like",
                 R.drawable.man, ContextCompat.getColor(this, R.color.colorPrimary)),
-                new InterestFragment(routeNGo.getObjectives().map(InterestAdapter::new)
+                new InterestFragment(routeNGo.getInterests().map(InterestAdapter::new)
                         .doOnSuccess(adapter -> this.adapter = adapter)),
                 AppIntroFragment.newInstance("Location", "We need to know your location to use main features to Route'N'Go",
                         R.drawable.location_white, ContextCompat.getColor(this, R.color.colorPrimary)),
@@ -78,10 +81,13 @@ public class IntroActivity extends AppCompatActivity
                 .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     }
 
-    @SuppressWarnings("MissingPermission")
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.i("tag", "onConnected");
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         LocationServices.FusedLocationApi.requestLocationUpdates(client, request, location ->
                 Completable.complete().subscribeOn(Schedulers.io()).subscribe(() -> {
                     Geocoder geocoder = new Geocoder(this, Locale.getDefault());
@@ -94,6 +100,11 @@ public class IntroActivity extends AppCompatActivity
                     preferences.edit().putString("city", locality).apply();
                 }, Throwable::printStackTrace));
         // Location location = LocationServices.FusedLocationApi.getLastLocation(client);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -112,6 +123,7 @@ public class IntroActivity extends AppCompatActivity
     }
 
     protected void onStop() {
+
         client.disconnect();
         super.onStop();
     }

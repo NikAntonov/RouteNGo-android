@@ -8,8 +8,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import hu.pe.routengo.entity.Interest;
 import hu.pe.routengo.entity.Models;
-import hu.pe.routengo.entity.Objective;
 import io.requery.Persistable;
 import io.requery.android.sqlite.DatabaseSource;
 import io.requery.reactivex.ReactiveEntityStore;
@@ -37,13 +37,13 @@ public class CacheModule {
         Configuration configuration = source.getConfiguration();
         dataStore = ReactiveSupport.toReactiveStore(new EntityDataStore<Persistable>(configuration));
 
-        if (dataStore.count(Objective.class).get().value().equals(Integer.valueOf(0)))
+        if (dataStore.count(Interest.class).get().value().equals(Integer.valueOf(0)))
             dataStore.insert(Arrays.asList(
-                    new Objective("history", "Historical Places", R.drawable.history_black),
-                    new Objective("shopping", "Shopping", R.drawable.shop_black),
-                    new Objective("bar", "Bar Marathons", R.drawable.bar_black),
-                    new Objective("nature", "Parks and Nature", R.drawable.nature_black),
-                    new Objective("football", "Football", R.drawable.football_black))).subscribe();
+                    new Interest("history", "Historical Places", R.drawable.history_black),
+                    new Interest("shopping", "Shopping", R.drawable.shop_black),
+                    new Interest("bar", "Bar Marathons", R.drawable.bar_black),
+                    new Interest("nature", "Parks and Nature", R.drawable.nature_black),
+                    new Interest("football", "Football", R.drawable.football_black))).subscribe();
         return dataStore;
     }
 }

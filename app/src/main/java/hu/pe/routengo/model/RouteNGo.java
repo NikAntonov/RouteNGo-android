@@ -5,7 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hu.pe.routengo.entity.Objective;
+import hu.pe.routengo.entity.Interest;
 import hu.pe.routengo.entity.Place;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -44,8 +44,8 @@ public class RouteNGo {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<List<Objective>> getObjectives() {
-        return cache.getObjectives().subscribeOn(Schedulers.io())
+    public Single<List<Interest>> getInterests() {
+        return cache.getInterests().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 }
