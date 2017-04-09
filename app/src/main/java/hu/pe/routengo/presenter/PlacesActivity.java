@@ -14,6 +14,8 @@ import android.widget.Switch;
 
 import com.jakewharton.rxbinding2.widget.RxCompoundButton;
 
+import java.util.Arrays;
+
 import javax.inject.Inject;
 
 import hu.pe.routengo.App;
@@ -58,13 +60,25 @@ public class PlacesActivity extends AppCompatActivity {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         recyclerView.setItemAnimator(itemAnimator);
 
+        historySwitch = (Switch) findViewById(R.id.history_switch) ;
+        shoppingSwitch = (Switch) findViewById(R.id.shopping_switch) ;
+        barSwitch = (Switch) findViewById(R.id.bar_switch) ;
+        natureSwitch = (Switch) findViewById(R.id.nature_switch) ;
+        footballSwitch = (Switch) findViewById(R.id.football_switch) ;
+
+        historySwitch.setChecked(true);
+        shoppingSwitch.setChecked(true);
+        barSwitch.setChecked(true);
+        natureSwitch.setChecked(true);
+        footballSwitch.setChecked(true);
+
         routeNGo.getFullPlaceList()
-                .flatMap(list -> Observable.merge(
+                .flatMap(list -> Observable.merge(Arrays.asList(
                         RxCompoundButton.checkedChanges(historySwitch),
                         RxCompoundButton.checkedChanges(shoppingSwitch),
                         RxCompoundButton.checkedChanges(barSwitch),
                         RxCompoundButton.checkedChanges(natureSwitch),
-                        RxCompoundButton.checkedChanges(footballSwitch))
+                        RxCompoundButton.checkedChanges(footballSwitch)))
                         .map(isChecked -> list)
                         .flatMap(places -> Observable.fromIterable(places)
                                 .filter(filter::history)
