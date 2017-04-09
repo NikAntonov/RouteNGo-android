@@ -36,7 +36,7 @@ public class Filter {
     }
 
     public boolean shopping(Place place) {
-        return shopping == place.getType().equals("shopping") && shopping;
+        return place.getType().equals("shopping") && shopping;
     }
 
     public boolean bar(Place place) {
