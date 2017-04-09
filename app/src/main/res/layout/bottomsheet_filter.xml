@@ -14,147 +14,57 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center"
-        android:text="@string/header"
+        android:text="@string/filter"
         android:textColor="@android:color/white" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:orientation="vertical"
         android:padding="16dp"
-        android:orientation="vertical">
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
 
-        <LinearLayout
+        <Switch
+            android:id="@+id/history_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_margin="9dp"
+            android:text="@string/history"
+            android:textColor="@android:color/white" />
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:layout_weight="5">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinner"/>
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinner2"/>
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinner3" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinner4"
-                        android:layout_weight="0.17" />
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinner5"
-                        android:layout_weight="0.17" />
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinner6"
-                        android:layout_weight="0.17" />
-
-                </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <Switch
+            android:id="@+id/shopping_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_margin="9dp"
+            android:text="@string/shopping"
+            android:textColor="@android:color/white" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="40dp"
-                android:paddingRight="40dp"
-                android:orientation="vertical">
+        <Switch
+            android:id="@+id/bar_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:text="@string/bar_marathons"
+            android:textColor="@android:color/white" />
 
-                <Switch
-                    android:text="@string/cond"
-                    android:textColor="@android:color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/air_cond_switch"
-                    android:layout_margin="9dp"/>
+        <Switch
+            android:id="@+id/nature_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:text="@string/parks_and_nature"
+            android:textColor="@android:color/white" />
 
-                <Switch
-                    android:text="@string/climate_control"
-                    android:textColor="@android:color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/climate_switch"
-                    android:layout_margin="9dp"/>
-
-                <Switch
-                    android:text="@string/power_window"
-                    android:textColor="@android:color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/power_window_switch"
-                    android:layout_margin="9dp"/>
-
-                <Switch
-                    android:text="@string/television"
-                    android:textColor="@android:color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/television_switch"
-                    android:layout_margin="9dp"/>
-
-                <Switch
-                    android:text="@string/car_alarm"
-                    android:textColor="@android:color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/сar_alarm_switch"
-                    android:layout_margin="9dp"/>
-
-                <Switch
-                    android:text="@string/child_seat"
-                    android:textColor="@android:color/white"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/child_seat_switch"
-                    android:layout_margin="9dp"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
+        <Switch
+            android:id="@+id/football_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="9dp"
+            android:text="@string/football"
+            android:textColor="@android:color/white" />
     </LinearLayout>
-
 </LinearLayout>
