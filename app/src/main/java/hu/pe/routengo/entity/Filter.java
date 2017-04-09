@@ -32,22 +32,22 @@ public class Filter {
     }
 
     public boolean history(Place place) {
-        return place.getType().equals("history");
+        return place.getType().equals("history") && history;
     }
 
     public boolean shopping(Place place) {
-        return place.getType().equals("shopping");
+        return shopping == place.getType().equals("shopping") && shopping;
     }
 
     public boolean bar(Place place) {
-        return place.getType().equals("bar");
+        return place.getType().equals("bar") && bar;
     }
 
     public boolean nature(Place place) {
-        return place.getType().equals("nature");
+        return place.getType().equals("nature") && nature;
     }
 
     public boolean football(Place place) {
-        return place.getType().equals("football");
+        return place.getType().equals("football") && football;
     }
 }
