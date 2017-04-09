@@ -2,22 +2,25 @@ package hu.pe.routengo.presenter;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Location;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.os.ResultReceiver;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.github.paolorotolo.appintro.AppIntroFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -25,20 +28,17 @@ import hu.pe.routengo.App;
 import hu.pe.routengo.R;
 import hu.pe.routengo.adapter.InterestAdapter;
 import hu.pe.routengo.adapter.IntroAdapter;
-import hu.pe.routengo.model.FetchAddressIntentService;
 import hu.pe.routengo.model.RouteNGo;
+import io.reactivex.Completable;
+import io.reactivex.schedulers.Schedulers;
 
 public class IntroActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    public static final String RESULT_DATA_KEY = "rdk";
-    public static final String RECEIVER = "r";
-    public static final String LOCATION_DATA_EXTRA = "lde";
     @Inject
     RouteNGo routeNGo;
     InterestAdapter adapter;
     GoogleApiClient client;
-    AddressResultReceiver mResultReceiver;
-
+    LocationRequest request;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,13 +46,6 @@ public class IntroActivity extends AppCompatActivity
         setContentView(R.layout.activity_intro);
         /*setBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         setSeparatorColor(ContextCompat.getColor(this, R.color.colorPrimary));*/
-        client = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-
-
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         IntroAdapter pagerAdapter = new IntroAdapter(getSupportFragmentManager());
 
@@ -75,27 +68,42 @@ public class IntroActivity extends AppCompatActivity
             setResult(RESULT_OK, intent);
             finish();
         });
+
+        client = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        request = LocationRequest.create().setNumUpdates(1)
+                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
     }
 
     @SuppressWarnings("MissingPermission")
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Location lastLocation = LocationServices.FusedLocationApi.getLastLocation(client);
-
-        Intent intent = new Intent(this, FetchAddressIntentService.class);
-        intent.putExtra(RECEIVER, mResultReceiver);
-        intent.putExtra(LOCATION_DATA_EXTRA, lastLocation);
-        startService(intent);
+        Log.i("tag", "onConnected");
+        LocationServices.FusedLocationApi.requestLocationUpdates(client, request, location ->
+                Completable.complete().subscribeOn(Schedulers.io()).subscribe(() -> {
+                    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                    Address address = geocoder.getFromLocation(
+                            location.getLatitude(), location.getLongitude(), 1).get(0);
+                    String locality = address.getLocality();
+                    Log.i("tag", "!!!!!" + locality);
+                    SharedPreferences preferences =
+                            PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                    preferences.edit().putString("city", locality).apply();
+                }, Throwable::printStackTrace));
+        // Location location = LocationServices.FusedLocationApi.getLastLocation(client);
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Log.i("tag", "onConnectionSuspended");
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Log.i("tag", "onConnectionFailed");
     }
 
     protected void onStart() {
@@ -106,24 +114,6 @@ public class IntroActivity extends AppCompatActivity
     protected void onStop() {
         client.disconnect();
         super.onStop();
-    }
-
-    private class AddressResultReceiver extends ResultReceiver {
-        public AddressResultReceiver(Handler handler) {
-            super(handler);
-        }
-
-        @Override
-        protected void onReceiveResult(int resultCode, Bundle resultData) {
-
-            // Display the address string
-            // or an error message sent from the intent service.
-            String addressOutput = resultData.getString(RESULT_DATA_KEY);
-
-            SharedPreferences preferences =
-                    PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-            preferences.edit().putString("city", addressOutput).apply();
-        }
     }
 }
 
