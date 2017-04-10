@@ -1,53 +1,55 @@
 package hu.pe.routengo.entity;
 
+import java.util.Map;
+
 /**
  * Created by megaman on 09.04.2017.
  */
 
 public class Filter {
-    protected boolean history;
-    protected boolean shopping;
-    protected boolean bar;
-    protected boolean nature;
-    protected boolean football;
+    private Map<String, Boolean> map;
 
     public void setHistory(boolean history) {
-        this.history = history;
+        map.put("history", history);
     }
 
     public void setShopping(boolean shopping) {
-        this.shopping = shopping;
+        map.put("shopping", shopping);
     }
 
     public void setBar(boolean bar) {
-        this.bar = bar;
+        map.put("bar", bar);
     }
 
     public void setNature(boolean nature) {
-        this.nature = nature;
+        map.put("nature", nature);
     }
 
     public void setFootball(boolean football) {
-        this.football = football;
+        map.put("football", football);
     }
 
-    public boolean history(Place place) {
-        return place.getType().equals("history") && history;
+    public boolean isHistory() {
+        return map.get("history");
     }
 
-    public boolean shopping(Place place) {
-        return place.getType().equals("shopping") && shopping;
+    public boolean isShopping() {
+        return map.get("shopping");
     }
 
-    public boolean bar(Place place) {
-        return place.getType().equals("bar") && bar;
+    public boolean isBar() {
+        return map.get("bar");
     }
 
-    public boolean nature(Place place) {
-        return place.getType().equals("nature") && nature;
+    public boolean isNature() {
+        return map.get("nature");
     }
 
-    public boolean football(Place place) {
-        return place.getType().equals("football") && football;
+    public boolean isFootball() {
+        return map.get("football");
+    }
+
+    public boolean predicate(Place place) {
+        return map.get(place.getType());
     }
 }

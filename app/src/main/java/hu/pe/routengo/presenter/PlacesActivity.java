@@ -60,34 +60,26 @@ public class PlacesActivity extends AppCompatActivity {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         recyclerView.setItemAnimator(itemAnimator);
 
-        historySwitch = (Switch) findViewById(R.id.history_switch) ;
-        shoppingSwitch = (Switch) findViewById(R.id.shopping_switch) ;
-        barSwitch = (Switch) findViewById(R.id.bar_switch) ;
-        natureSwitch = (Switch) findViewById(R.id.nature_switch) ;
-        footballSwitch = (Switch) findViewById(R.id.football_switch) ;
+        historySwitch = (Switch) findViewById(R.id.history_switch);
+        shoppingSwitch = (Switch) findViewById(R.id.shopping_switch);
+        barSwitch = (Switch) findViewById(R.id.bar_switch);
+        natureSwitch = (Switch) findViewById(R.id.nature_switch);
+        footballSwitch = (Switch) findViewById(R.id.football_switch);
 
-        historySwitch.setChecked(true);
-        shoppingSwitch.setChecked(true);
-        barSwitch.setChecked(true);
-        natureSwitch.setChecked(true);
-        footballSwitch.setChecked(true);
-
-        routeNGo.getFullPlaceList()
-                .flatMap(list -> Observable.merge(Arrays.asList(
-                        RxCompoundButton.checkedChanges(historySwitch),
-                        RxCompoundButton.checkedChanges(shoppingSwitch),
-                        RxCompoundButton.checkedChanges(barSwitch),
-                        RxCompoundButton.checkedChanges(natureSwitch),
-                        RxCompoundButton.checkedChanges(footballSwitch)))
-                        .map(isChecked -> list)
-                        .flatMap(places -> Observable.fromIterable(places)
-                                .filter(filter::history)
-                                .filter(filter::shopping)
-                                .filter(filter::bar)
-                                .filter(filter::nature)
-                                .filter(filter::football)
-                                .toList().toObservable()))
-                .map(PlaceAdapter::new)
-                .subscribe(recyclerView::setAdapter, Throwable::printStackTrace);
+        routeNGo.getFullPlaceList().doOnNext(places -> {
+            historySwitch.setChecked(true);
+            shoppingSwitch.setChecked(true);
+            barSwitch.setChecked(true);
+            natureSwitch.setChecked(true);
+            footballSwitch.setChecked(true);
+        }).flatMap(list -> Observable.merge(Arrays.asList(
+                RxCompoundButton.checkedChanges(historySwitch).doOnNext(filter::setHistory),
+                RxCompoundButton.checkedChanges(shoppingSwitch).doOnNext(filter::setShopping),
+                RxCompoundButton.checkedChanges(barSwitch).doOnNext(filter::setBar),
+                RxCompoundButton.checkedChanges(natureSwitch).doOnNext(filter::setNature),
+                RxCompoundButton.checkedChanges(footballSwitch).doOnNext(filter::setFootball)))
+                .map(isChecked -> list).flatMap(places -> Observable.fromIterable(places)
+                        .filter(filter::predicate).toList().toObservable()))
+                .map(PlaceAdapter::new).subscribe(recyclerView::setAdapter, Throwable::printStackTrace);
     }
 }
