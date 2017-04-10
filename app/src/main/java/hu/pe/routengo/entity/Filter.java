@@ -1,5 +1,6 @@
 package hu.pe.routengo.entity;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -7,7 +8,11 @@ import java.util.Map;
  */
 
 public class Filter {
-    private Map<String, Boolean> map;
+    private Map<String, Boolean> map = new HashMap<>();
+
+    public Filter() {
+        map.put("", true);
+    }
 
     public void setHistory(boolean history) {
         map.put("history", history);

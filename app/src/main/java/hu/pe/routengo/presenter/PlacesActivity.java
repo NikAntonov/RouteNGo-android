@@ -29,7 +29,7 @@ public class PlacesActivity extends AppCompatActivity {
     @Inject
     RouteNGo routeNGo;
     RecyclerView recyclerView;
-    Filter filter;
+    Filter filter = new Filter();
 
     Switch historySwitch;
     Switch shoppingSwitch;
