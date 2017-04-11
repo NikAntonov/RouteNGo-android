@@ -86,20 +86,19 @@ public class IntroActivity extends AppCompatActivity
         Log.i("tag", "onConnected");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(client, request, location ->
-                Completable.complete().subscribeOn(Schedulers.io()).subscribe(() -> {
-                    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-                    Address address = geocoder.getFromLocation(
-                            location.getLatitude(), location.getLongitude(), 1).get(0);
-                    String locality = address.getLocality();
-                    Log.i("tag", "!!!!!" + locality);
-                    SharedPreferences preferences =
-                            PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                    preferences.edit().putString("city", locality).apply();
-                }, Throwable::printStackTrace));
-        // Location location = LocationServices.FusedLocationApi.getLastLocation(client);
+        Completable.complete().subscribeOn(Schedulers.io()).subscribe(() -> {
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            Address address = geocoder.getFromLocation(
+                    location.getLatitude(), location.getLongitude(), 1).get(0);
+            String locality = address.getLocality();
+            Log.i("tag", "!!!!!2" + locality);
+            SharedPreferences preferences =
+                    PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            preferences.edit().putString("city", locality).apply();
+        }, Throwable::printStackTrace));
     }
 
     @Override
