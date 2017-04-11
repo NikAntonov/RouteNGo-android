@@ -1,5 +1,6 @@
 package hu.pe.routengo.presenter;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -49,8 +50,12 @@ public class PlacesActivity extends AppCompatActivity {
         toolbar.setTitle(preferences.getString("city", "Default-City"));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        fab.setOnClickListener(view -> {
+                Intent intent = new Intent(PlacesActivity.this, MapsActivity.class);
+                startActivity(intent);
+        });
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                //.setAction("Action", null).show());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_places);

@@ -56,7 +56,7 @@ public class IntroActivity extends AppCompatActivity
         ((App) getApplication()).getComponent().inject(this);
 
         pagerAdapter.setFragments(AppIntroFragment.newInstance("Welcome!", "For creating routes we need to know what are you like",
-                R.drawable.man, ContextCompat.getColor(this, R.color.colorPrimary)),
+                R.drawable.user, ContextCompat.getColor(this, R.color.colorPrimary)),
                 new InterestFragment(routeNGo.getInterests().map(InterestAdapter::new)
                         .doOnSuccess(adapter -> this.adapter = adapter)),
                 AppIntroFragment.newInstance("Location", "We need to know your location to use main features to Route'N'Go",

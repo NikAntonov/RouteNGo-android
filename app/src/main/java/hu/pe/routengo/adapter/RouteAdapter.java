@@ -52,7 +52,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder
                     .centerCrop()
                     .into(holder.type);
         }
-        holder.time.setText(route.getName());
+        holder.time.setText("12 min");
 
         holder.view.setOnClickListener(v -> new AlertDialog.Builder(context)
                 .setTitle("Start this route?")
