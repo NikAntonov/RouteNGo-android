@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,15 +25,11 @@ import hu.pe.routengo.presenter.MapsActivity;
  */
 public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder> {
 
-    private List<Route> mData;
-    public static String username;
-    private TextView time;
-    private TextView distance;
+    private List<Route> routeList;
 
-    public RouteAdapter(List<Route> routes) {
-        mData = routes;
+    public RouteAdapter(List<Route> routeList) {
+        this.routeList = routeList;
     }
-
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -44,10 +39,8 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        Route route = mData.get(position);
-
+        Route route = routeList.get(position);
         Context context = holder.view.getContext();
-        Log.i("tag", route.getType());
         if (route.getType().equals("bar")) {
             Glide.with(context)
                     .load(R.drawable.bar_black)
@@ -77,7 +70,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return routeList.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

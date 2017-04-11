@@ -24,14 +24,9 @@ public class PlaceAdapter extends RecyclerView.Adapter<PlaceAdapter.MyViewHolder
 
     private List<Place> placeList;
 
-
-
-
-
     public PlaceAdapter(List<Place> places) {
         placeList = places;
     }
-
 
     @Override
     public PlaceAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

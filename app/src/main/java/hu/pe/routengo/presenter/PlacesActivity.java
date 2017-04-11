@@ -10,6 +10,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.Switch;
 
 import com.jakewharton.rxbinding2.widget.RxCompoundButton;
@@ -52,13 +53,10 @@ public class PlacesActivity extends AppCompatActivity {
                 .setAction("Action", null).show());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ((App) getApplication()).getComponent().inject(this);
-
         recyclerView = (RecyclerView) findViewById(R.id.rv_places);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        recyclerView.setItemAnimator(itemAnimator);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         historySwitch = (Switch) findViewById(R.id.history_switch);
         shoppingSwitch = (Switch) findViewById(R.id.shopping_switch);
@@ -66,14 +64,10 @@ public class PlacesActivity extends AppCompatActivity {
         natureSwitch = (Switch) findViewById(R.id.nature_switch);
         footballSwitch = (Switch) findViewById(R.id.football_switch);
 
-        routeNGo.getFullPlaceList().doOnNext(places -> {
-            historySwitch.setChecked(true);
-            shoppingSwitch.setChecked(true);
-            barSwitch.setChecked(true);
-            natureSwitch.setChecked(true);
-            footballSwitch.setChecked(true);
-        }).flatMap(list -> Observable.merge(Arrays.asList(
-                RxCompoundButton.checkedChanges(historySwitch).doOnNext(filter::setHistory),
+        ((App) getApplication()).getComponent().inject(this);
+
+        routeNGo.getFullPlaceList().flatMap(list -> Observable.merge(Arrays.asList(
+                RxCompoundButton.checkedChanges(historySwitch).doOnNext(filter::setHistory).doOnNext(aBoolean -> Log.i("tag", "********" + filter.isHistory())),
                 RxCompoundButton.checkedChanges(shoppingSwitch).doOnNext(filter::setShopping),
                 RxCompoundButton.checkedChanges(barSwitch).doOnNext(filter::setBar),
                 RxCompoundButton.checkedChanges(natureSwitch).doOnNext(filter::setNature),
@@ -81,5 +75,12 @@ public class PlacesActivity extends AppCompatActivity {
                 .map(isChecked -> list).flatMap(places -> Observable.fromIterable(places)
                         .filter(filter::predicate).toList().toObservable()))
                 .map(PlaceAdapter::new).subscribe(recyclerView::setAdapter, Throwable::printStackTrace);
+
+        historySwitch.setChecked(true);
+        shoppingSwitch.setChecked(true);
+        barSwitch.setChecked(true);
+        natureSwitch.setChecked(true);
+        footballSwitch.setChecked(true);
+        //Log.i("tag", "********" + filter.isHistory() + filter.isNature());
     }
 }
