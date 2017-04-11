@@ -106,6 +106,7 @@ public class IntroActivity extends AppCompatActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+
     @Override
     public void onConnectionSuspended(int i) {
         Log.i("tag", "onConnectionSuspended");
